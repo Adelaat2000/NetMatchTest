@@ -75,5 +75,9 @@ _[Ss]cripts
 *.dot[Cc]over
 /.vs/netmatch-groep-3-mvc/v17
 /.vs/netmatch-groep-3-mvc/FileContentIndex
-/.vs/Netmatch-opdracht/DesignTimeBuild
 /.vs/Netmatch-opdracht/FileContentIndex
+/.vs/Netmatch-opdracht/DesignTimeBuild
+/Netmatch-opdracht/obj/Debug/net9.0/Netmatch-opdracht.AssemblyInfo.cs
+/Netmatch-opdracht/obj/Debug/net9.0/Netmatch-opdracht.AssemblyInfoInputs.cache
+/Netmatch-opdracht/obj/Debug/net9.0/Netmatch-opdracht.assets.cache
+/Netmatch-opdracht/obj/Debug/net9.0/Netmatch-opdracht.GeneratedMSBuildEditorConfig.editorconfig
