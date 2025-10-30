@@ -1,8 +1,38 @@
-﻿@{
-    ViewData["Title"] = "Home Page";
+﻿@model Netmatch_opdracht.Models.CreateOfferteViewModel
+@{
+    ViewData["Title"] = "Netmatch";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<div class="">
+    <div class="d-flex justify-content-between">
+        <h1>
+            NetMatch
+        </h1>
+        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#createOfferteModal">
+            + Offerte aanmaken
+        </button>
+        <div class="modal" id="createOfferteModal">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <form asp-controller="Offerte" asp-action="Create">
+                        <div class="modal-header">
+                            <h5 class="modal-title">
+                                Nieuwe offerte aanmaken
+                            </h5>
+                            <button class="btn-close" data-bs-dismiss="modal"></button>
+                        </div>
+                        <div class="modal-body">
+                            <label asp-for="OfferteNaam">Offertenaam</label>
+                            <input asp-for="OfferteNaam"/>
+                        </div>
+                        <div class="modal-footer">
+                            <button class="btn-secondary" data-bs-dismiss="modal">Annuleren</button>
+                            <button class="btn-primary" type="submit">Aanmaken</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
+
