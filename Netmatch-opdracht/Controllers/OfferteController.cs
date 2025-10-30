@@ -1,4 +1,5 @@
 using Netmatch_opdracht.Models;
+using NetMatch.Logic.Services;
 
 namespace Netmatch_opdracht.Controllers;
 using Microsoft.AspNetCore.Mvc;

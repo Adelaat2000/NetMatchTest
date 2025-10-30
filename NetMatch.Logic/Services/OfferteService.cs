@@ -20,5 +20,10 @@ namespace NetMatch.Logic.Services
             ListOffertes.Add(new OfferteClass(1, "offerte nummer 1"));
             return ListOffertes;
         }
+        
+        public void Create(object model)
+        {
+            var OfferteClass = new OfferteClass(1, "offerte nummer 1");
+        }
     }
 }

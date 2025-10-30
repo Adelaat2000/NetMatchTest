@@ -7,13 +7,12 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <Folder Include="Interfaces\" />
-      <Folder Include="Repository\" />
+      <PackageReference Include="Microsoft.Data.SqlClient" Version="6.1.2" />
+      <PackageReference Include="Microsoft.Extensions.Configuration" Version="9.0.10" />
     </ItemGroup>
 
     <ItemGroup>
-      <PackageReference Include="Microsoft.Data.SqlClient" Version="6.1.2" />
-      <PackageReference Include="Microsoft.Extensions.Configuration" Version="9.0.10" />
+      <ProjectReference Include="..\NetMatch.Logic\NetMatch.Logic.csproj" />
     </ItemGroup>
 
 </Project>

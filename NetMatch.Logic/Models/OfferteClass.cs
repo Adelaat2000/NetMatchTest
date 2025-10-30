@@ -1,22 +1,19 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿
+using System;
 
 namespace NetMatch.Logic.Models
 {
     public class OfferteClass
     {
-        //properties
-        public int id { get; private set; }
-        public string naam { get; private set; }
+        public OfferteClass() { }
 
-        //constructor
-        public OfferteClass(int id, string naam)
+        public OfferteClass(int id, string name)
         {
-            this.id = id;
-            this.naam = naam;
+            Id = id;
+            Name = name;
         }
+
+        public int Id { get; set; }
+        public string Name { get; set; }
     }
 }

@@ -7,4 +7,8 @@
         <RootNamespace>Netmatch_opdracht</RootNamespace>
     </PropertyGroup>
 
+    <ItemGroup>
+      <ProjectReference Include="..\NetMatch.Logic\NetMatch.Logic.csproj" />
+    </ItemGroup>
+
 </Project>
