@@ -9,6 +9,7 @@
 
     <ItemGroup>
       <ProjectReference Include="..\NetMatch.Logic\NetMatch.Logic.csproj" />
+      <ProjectReference Include="..\NetMatch.DAL\NetMatch.DAL.csproj" />
     </ItemGroup>
 
 </Project>
