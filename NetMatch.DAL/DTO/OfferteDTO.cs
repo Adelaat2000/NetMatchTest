@@ -7,6 +7,6 @@ namespace NetMatch.DAL.DTO;
 public class OfferteDTO
 {
     public int Id { get; set; }
-    public string Name { get; set; }
+    public string? Naam { get; set; }
 }
 

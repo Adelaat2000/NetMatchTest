@@ -38,7 +38,7 @@ namespace NetMatch.Logic.Services
             return dtos.Select(dto => new OfferteClass
             {
                 Id = dto.Id,
-                Name = dto.Name
+                Naam = dto.Naam
             }).ToList();
         }
 
@@ -58,7 +58,7 @@ namespace NetMatch.Logic.Services
             return new OfferteClass
             {
                 Id = dto.Id,
-                Name = dto.Name
+                Naam = dto.Naam
             };
         }
         
@@ -75,7 +75,7 @@ namespace NetMatch.Logic.Services
             var dto = new OfferteDTO
             {
                 Id = offerte.Id,
-                Name = offerte.Name
+                Naam = offerte.Naam
             };
             
             // Create via repository
@@ -98,7 +98,7 @@ namespace NetMatch.Logic.Services
             var dto = new OfferteDTO
             {
                 Id = offerte.Id,
-                Name = offerte.Name
+                Naam = offerte.Naam
             };
             
             _repository.Update(dto);

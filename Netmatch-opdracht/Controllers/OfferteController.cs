@@ -40,13 +40,13 @@ public class OfferteController : Controller
         // Map ViewModel to domain model
         var offerte = new OfferteClass
         {
-            Name = model.OfferteNaam
+            Naam = model.OfferteNaam
         };
         
         // Create via service
         _offerteService.Create(offerte);
         
-        TempData["SuccessMessage"] = $"Offerte '{offerte.Name}' succesvol aangemaakt!";
-        return RedirectToAction("Index");
+        TempData["SuccessMessage"] = $"Offerte '{offerte.Naam}' succesvol aangemaakt!";
+        return RedirectToAction("Index", "Home");
     }
 }
