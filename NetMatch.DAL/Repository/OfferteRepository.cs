@@ -1,25 +1,28 @@
-
 using System;
 using System.Collections.Generic;
 using System.Data;
-using System.Data.SqlClient;
 using Microsoft.Data.SqlClient;
 using NetMatch.DAL.Interfaces;
-using NetMatch.Logic.Models;
+using NetMatch.DAL.DTO;
 
-namespace NetMatch.Data
+namespace NetMatch.DAL.Repositories
 {
+    /// <summary>
+    /// Repository for Offerte data access.
+    /// Works with DTOs and raw database operations.
+    /// </summary>
     public class OfferteRepository : IOfferteRepository
     {
         private readonly string _connectionString;
 
         public OfferteRepository(string connectionString)
         {
-            if (string.IsNullOrWhiteSpace(connectionString)) throw new ArgumentException("connectionString required", nameof(connectionString));
+            if (string.IsNullOrWhiteSpace(connectionString)) 
+                throw new ArgumentException("connectionString required", nameof(connectionString));
             _connectionString = connectionString;
         }
 
-        public void Create(OfferteClass offerte)
+        public void Create(OfferteDTO offerte)
         {
             if (offerte == null) throw new ArgumentNullException(nameof(offerte));
 
@@ -39,9 +42,9 @@ namespace NetMatch.Data
             }
         }
 
-        public IEnumerable<OfferteClass> GetAll()
+        public IEnumerable<OfferteDTO> GetAll()
         {
-            var list = new List<OfferteClass>();
+            var list = new List<OfferteDTO>();
 
             using (var conn = new SqlConnection(_connectionString))
             using (var cmd = conn.CreateCommand())
@@ -54,7 +57,7 @@ namespace NetMatch.Data
                 {
                     while (reader.Read())
                     {
-                        list.Add(new OfferteClass
+                        list.Add(new OfferteDTO
                         {
                             Id = reader.GetInt32(0),
                             Name = reader.IsDBNull(1) ? null : reader.GetString(1)
@@ -66,7 +69,7 @@ namespace NetMatch.Data
             return list;
         }
 
-        public OfferteClass GetById(int id)
+        public OfferteDTO GetById(int id)
         {
             using (var conn = new SqlConnection(_connectionString))
             using (var cmd = conn.CreateCommand())
@@ -80,10 +83,11 @@ namespace NetMatch.Data
                 {
                     if (reader.Read())
                     {
-                        var @class = new OfferteClass( );
-                        @class.Id = reader.GetInt32(0);
-                        @class.Name = reader.IsDBNull(1) ? null : reader.GetString(1);
-                        return @class;
+                        return new OfferteDTO
+                        {
+                            Id = reader.GetInt32(0),
+                            Name = reader.IsDBNull(1) ? null : reader.GetString(1)
+                        };
                     }
                 }
             }
@@ -91,7 +95,7 @@ namespace NetMatch.Data
             return null;
         }
 
-        public void Update(OfferteClass offerte)
+        public void Update(OfferteDTO offerte)
         {
             if (offerte == null) throw new ArgumentNullException(nameof(offerte));
 

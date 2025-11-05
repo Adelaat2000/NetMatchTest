@@ -1,35 +1,91 @@
-﻿@model Netmatch_opdracht.Models.CreateOfferteViewModel
-@{
-    ViewData["Title"] = "Netmatch";
+﻿@{
+    ViewData["Title"] = "Home Page";
 }
 
-<div class="">
-    <div class="d-flex justify-content-between">
-        <h1>
-            NetMatch
-        </h1>
-        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#createOfferteModal">
-            + Offerte aanmaken
-        </button>
-        <div class="modal" id="createOfferteModal">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <form asp-controller="Offerte" asp-action="Create">
-                        <div class="modal-header">
-                            <h5 class="modal-title">
-                                Nieuwe offerte aanmaken
-                            </h5>
-                            <button class="btn-close" data-bs-dismiss="modal"></button>
-                        </div>
-                        <div class="modal-body">
-                            <label asp-for="OfferteNaam">Offertenaam</label>
-                            <input asp-for="OfferteNaam"/>
-                        </div>
-                        <div class="modal-footer">
-                            <button class="btn-secondary" data-bs-dismiss="modal">Annuleren</button>
-                            <button class="btn-primary" type="submit">Aanmaken</button>
-                        </div>
-                    </form>
+<div class="text-center">
+    <h1 class="display-4">Welcome to NetMatch</h1>
+    <p class="lead">Clean Architecture Demo - ASP.NET Core MVC</p>
+</div>
+
+<div class="row mt-5">
+    <div class="col-md-6 mb-4">
+        <div class="card h-100 shadow-sm">
+            <div class="card-body text-center">
+                <div class="mb-3">
+                    <i class="bi bi-file-earmark-text" style="font-size: 4rem; color: #0d6efd;"></i>
+                </div>
+                <h3 class="card-title">Offertes Beheren</h3>
+                <p class="card-text">
+                    Maak en beheer offertes met volledige CRUD functionaliteit.
+                    Demonstreert clean architecture met dependency injection.
+                </p>
+                <a href="@Url.Action("Index", "Offerte")" class="btn btn-primary btn-lg">
+                    <i class="bi bi-arrow-right-circle"></i> Naar Offertes
+                </a>
+            </div>
+            <div class="card-footer text-muted">
+                <small><i class="bi bi-check-circle-fill text-success"></i> Repository Pattern + DTOs</small>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-6 mb-4">
+        <div class="card h-100 shadow-sm">
+            <div class="card-body text-center">
+                <div class="mb-3">
+                    <i class="bi bi-airplane" style="font-size: 4rem; color: #198754;"></i>
+                </div>
+                <h3 class="card-title">Reis Overzicht</h3>
+                <p class="card-text">
+                    Bekijk gedetailleerde reisinformatie inclusief accommodatie en transport.
+                    Met automatische berekening van totalen en belastingen.
+                </p>
+                <a href="@Url.Action("ToonReisOverzicht", "ReisOverzicht", new { tripId = 1 })" class="btn btn-success btn-lg">
+                    <i class="bi bi-arrow-right-circle"></i> Bekijk Reis
+                </a>
+            </div>
+            <div class="card-footer text-muted">
+                <small><i class="bi bi-check-circle-fill text-success"></i> Service Layer + Business Logic</small>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row mt-4">
+    <div class="col-12">
+        <div class="card border-info">
+            <div class="card-header bg-info text-white">
+                <h5 class="mb-0"><i class="bi bi-info-circle"></i> Clean Architecture Implementatie</h5>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-4">
+                        <h6><i class="bi bi-database"></i> DAL Layer</h6>
+                        <ul class="small">
+                            <li>DTOs voor data transfer</li>
+                            <li>Repository interfaces</li>
+                            <li>ADO.NET data access</li>
+                            <li>Geen afhankelijkheid van andere lagen</li>
+                        </ul>
+                    </div>
+                    <div class="col-md-4">
+                        <h6><i class="bi bi-gear"></i> Logic Layer</h6>
+                        <ul class="small">
+                            <li>Domain models</li>
+                            <li>Business logic in services</li>
+                            <li>DTO naar Model mapping</li>
+                            <li>Afhankelijk van DAL interfaces</li>
+                        </ul>
+                    </div>
+                    <div class="col-md-4">
+                        <h6><i class="bi bi-window"></i> Presentation Layer</h6>
+                        <ul class="small">
+                            <li>MVC Controllers</li>
+                            <li>ViewModels</li>
+                            <li>Razor Views</li>
+                            <li>Dependency Injection setup</li>
+                        </ul>
+                    </div>
                 </div>
             </div>
         </div>

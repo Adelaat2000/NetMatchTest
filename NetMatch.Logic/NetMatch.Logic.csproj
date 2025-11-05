@@ -6,5 +6,8 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\NetMatch.DAL\NetMatch.DAL.csproj" />
+  </ItemGroup>
 
 </Project>

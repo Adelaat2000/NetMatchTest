@@ -1,7 +1,24 @@
+using NetMatch.Logic.Services;
+using NetMatch.DAL.Interfaces;
+using NetMatch.DAL.Repositories;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+
+// Get connection string from configuration
+var connectionString = builder.Configuration.GetConnectionString("NetmatchDB");
+
+// Register repositories (DAL layer) - these need the connection string
+builder.Services.AddScoped<IReisOverzichtRepository, ReisOverzichtRepository>();
+builder.Services.AddScoped<IOfferteRepository>(provider => 
+    new OfferteRepository(connectionString));
+
+// Register services (Logic layer) - these depend on repository interfaces
+builder.Services.AddScoped<ReisOverzichtService>();
+builder.Services.AddScoped<OfferteService>();
+
 
 var app = builder.Build();
 
