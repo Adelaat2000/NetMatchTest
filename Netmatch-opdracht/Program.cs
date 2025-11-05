@@ -1,6 +1,8 @@
+using NetMatch.Dal.Interfaces;
 using NetMatch.Logic.Services;
 using NetMatch.DAL.Interfaces;
 using NetMatch.DAL.Repositories;
+using NetMatch.DAL.Repository;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -15,9 +17,14 @@ builder.Services.AddScoped<IReisOverzichtRepository, ReisOverzichtRepository>();
 builder.Services.AddScoped<IOfferteRepository>(provider => 
     new OfferteRepository(connectionString));
 
+builder.Services.AddScoped<IAccommodationRepository>(provider => 
+    new AccommodationRepository(connectionString));
+
 // Register services (Logic layer) - these depend on repository interfaces
 builder.Services.AddScoped<ReisOverzichtService>();
 builder.Services.AddScoped<OfferteService>();
+
+builder.Services.AddScoped<AccommodationService>();
 
 
 var app = builder.Build();
