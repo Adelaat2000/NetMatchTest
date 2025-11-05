@@ -31,8 +31,8 @@ namespace NetMatch.DAL.Repositories
             {
                 conn.Open();
                 cmd.CommandType = CommandType.Text;
-                cmd.CommandText = "INSERT INTO Offertes ([Name]) VALUES (@Name); SELECT CAST(SCOPE_IDENTITY() AS int);";
-                cmd.Parameters.AddWithValue("@Name", (object)offerte.Name ?? DBNull.Value);
+                cmd.CommandText = "INSERT INTO Offertes ([Naam]) VALUES (@Naam); SELECT CAST(SCOPE_IDENTITY() AS int);";
+                cmd.Parameters.AddWithValue("@Naam", (object)offerte.Naam ?? DBNull.Value);
 
                 var result = cmd.ExecuteScalar();
                 if (result != null && int.TryParse(result.ToString(), out var id))
@@ -51,7 +51,7 @@ namespace NetMatch.DAL.Repositories
             {
                 conn.Open();
                 cmd.CommandType = CommandType.Text;
-                cmd.CommandText = "SELECT Id, [Name] FROM Offertes";
+                cmd.CommandText = "SELECT Id, [Naam] FROM Offertes";
 
                 using (var reader = cmd.ExecuteReader())
                 {
@@ -60,7 +60,7 @@ namespace NetMatch.DAL.Repositories
                         list.Add(new OfferteDTO
                         {
                             Id = reader.GetInt32(0),
-                            Name = reader.IsDBNull(1) ? null : reader.GetString(1)
+                            Naam = reader.IsDBNull(1) ? null : reader.GetString(1)
                         });
                     }
                 }
@@ -76,7 +76,7 @@ namespace NetMatch.DAL.Repositories
             {
                 conn.Open();
                 cmd.CommandType = CommandType.Text;
-                cmd.CommandText = "SELECT Id, [Name] FROM Offertes WHERE Id = @Id";
+                cmd.CommandText = "SELECT Id, [Naam] FROM Offertes WHERE Id = @Id";
                 cmd.Parameters.AddWithValue("@Id", id);
 
                 using (var reader = cmd.ExecuteReader())
@@ -86,7 +86,7 @@ namespace NetMatch.DAL.Repositories
                         return new OfferteDTO
                         {
                             Id = reader.GetInt32(0),
-                            Name = reader.IsDBNull(1) ? null : reader.GetString(1)
+                            Naam = reader.IsDBNull(1) ? null : reader.GetString(1)
                         };
                     }
                 }
@@ -104,8 +104,8 @@ namespace NetMatch.DAL.Repositories
             {
                 conn.Open();
                 cmd.CommandType = CommandType.Text;
-                cmd.CommandText = "UPDATE Offertes SET [Name] = @Name WHERE Id = @Id";
-                cmd.Parameters.AddWithValue("@Name", (object)offerte.Name ?? DBNull.Value);
+                cmd.CommandText = "UPDATE Offertes SET [Naam] = @Naam WHERE Id = @Id";
+                cmd.Parameters.AddWithValue("@Naam", (object)offerte.Naam ?? DBNull.Value);
                 cmd.Parameters.AddWithValue("@Id", offerte.Id);
 
                 cmd.ExecuteNonQuery();

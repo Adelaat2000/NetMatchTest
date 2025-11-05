@@ -1730,11 +1730,11 @@
         "net9.0": {
           "targetAlias": "net9.0",
           "projectReferences": {
-            "/Users/alexander/RiderProjects/netmatch-groep-3-mvc/NetMatch.DAL/NetMatch.DAL.csproj": {
-              "projectPath": "/Users/alexander/RiderProjects/netmatch-groep-3-mvc/NetMatch.DAL/NetMatch.DAL.csproj"
+            "/home/svend/netmatch-groep-3-mvc/NetMatch.DAL/NetMatch.DAL.csproj": {
+              "projectPath": "/home/svend/netmatch-groep-3-mvc/NetMatch.DAL/NetMatch.DAL.csproj"
             },
-            "/Users/alexander/RiderProjects/netmatch-groep-3-mvc/NetMatch.Logic/NetMatch.Logic.csproj": {
-              "projectPath": "/Users/alexander/RiderProjects/netmatch-groep-3-mvc/NetMatch.Logic/NetMatch.Logic.csproj"
+            "/home/svend/netmatch-groep-3-mvc/NetMatch.Logic/NetMatch.Logic.csproj": {
+              "projectPath": "/home/svend/netmatch-groep-3-mvc/NetMatch.Logic/NetMatch.Logic.csproj"
             }
           }
         }
@@ -1773,7 +1773,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/9.0.306/PortableRuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "/usr/share/dotnet/sdk/9.0.305/PortableRuntimeIdentifierGraph.json"
       }
     }
   }

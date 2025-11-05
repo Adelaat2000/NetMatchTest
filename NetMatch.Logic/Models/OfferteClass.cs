@@ -7,13 +7,13 @@ namespace NetMatch.Logic.Models
     {
         public OfferteClass() { }
 
-        public OfferteClass(int id, string name)
+        public OfferteClass(int id, string naam)
         {
             Id = id;
-            Name = name;
+            Naam = naam;
         }
 
         public int Id { get; set; }
-        public string Name { get; set; }
+        public string? Naam { get; set; }
     }
 }

@@ -1,94 +1,139 @@
-﻿@{
-    ViewData["Title"] = "Home Page";
+﻿@model Netmatch_opdracht.Models.HomeViewModel
+@{
+    ViewData["Title"] = "Offerte beheer";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome to NetMatch</h1>
-    <p class="lead">Clean Architecture Demo - ASP.NET Core MVC</p>
-</div>
-
-<div class="row mt-5">
-    <div class="col-md-6 mb-4">
-        <div class="card h-100 shadow-sm">
-            <div class="card-body text-center">
-                <div class="mb-3">
-                    <i class="bi bi-file-earmark-text" style="font-size: 4rem; color: #0d6efd;"></i>
+<div class="container-fluid bg-light min-vh-100">
+    <div class="container py-4">
+        <!-- Header Section -->
+        <div class="row mb-4">
+            <div class="col">
+                <div class="d-flex justify-content-between align-items-center">
+                    <div class="d-flex align-items-center">
+                        <h1 class="h2 mb-0 text-dark fw-bold">Offertebeheer</h1>
+                    </div>
+                    <button type="button" class="btn btn-danger btn-lg px-4" data-bs-toggle="modal" data-bs-target="#createOfferteModal">
+                        <i class="bi bi-plus-circle me-2"></i>Nieuwe offerte
+                    </button>
                 </div>
-                <h3 class="card-title">Offertes Beheren</h3>
-                <p class="card-text">
-                    Maak en beheer offertes met volledige CRUD functionaliteit.
-                    Demonstreert clean architecture met dependency injection.
-                </p>
-                <a href="@Url.Action("Index", "Offerte")" class="btn btn-primary btn-lg">
-                    <i class="bi bi-arrow-right-circle"></i> Naar Offertes
-                </a>
-            </div>
-            <div class="card-footer text-muted">
-                <small><i class="bi bi-check-circle-fill text-success"></i> Repository Pattern + DTOs</small>
             </div>
         </div>
-    </div>
 
-    <div class="col-md-6 mb-4">
-        <div class="card h-100 shadow-sm">
-            <div class="card-body text-center">
-                <div class="mb-3">
-                    <i class="bi bi-airplane" style="font-size: 4rem; color: #198754;"></i>
-                </div>
-                <h3 class="card-title">Reis Overzicht</h3>
-                <p class="card-text">
-                    Bekijk gedetailleerde reisinformatie inclusief accommodatie en transport.
-                    Met automatische berekening van totalen en belastingen.
-                </p>
-                <a href="@Url.Action("ToonReisOverzicht", "ReisOverzicht", new { tripId = 1 })" class="btn btn-success btn-lg">
-                    <i class="bi bi-arrow-right-circle"></i> Bekijk Reis
-                </a>
-            </div>
-            <div class="card-footer text-muted">
-                <small><i class="bi bi-check-circle-fill text-success"></i> Service Layer + Business Logic</small>
-            </div>
-        </div>
-    </div>
-</div>
-
-<div class="row mt-4">
-    <div class="col-12">
-        <div class="card border-info">
-            <div class="card-header bg-info text-white">
-                <h5 class="mb-0"><i class="bi bi-info-circle"></i> Clean Architecture Implementatie</h5>
-            </div>
-            <div class="card-body">
-                <div class="row">
-                    <div class="col-md-4">
-                        <h6><i class="bi bi-database"></i> DAL Layer</h6>
-                        <ul class="small">
-                            <li>DTOs voor data transfer</li>
-                            <li>Repository interfaces</li>
-                            <li>ADO.NET data access</li>
-                            <li>Geen afhankelijkheid van andere lagen</li>
-                        </ul>
-                    </div>
-                    <div class="col-md-4">
-                        <h6><i class="bi bi-gear"></i> Logic Layer</h6>
-                        <ul class="small">
-                            <li>Domain models</li>
-                            <li>Business logic in services</li>
-                            <li>DTO naar Model mapping</li>
-                            <li>Afhankelijk van DAL interfaces</li>
-                        </ul>
-                    </div>
-                    <div class="col-md-4">
-                        <h6><i class="bi bi-window"></i> Presentation Layer</h6>
-                        <ul class="small">
-                            <li>MVC Controllers</li>
-                            <li>ViewModels</li>
-                            <li>Razor Views</li>
-                            <li>Dependency Injection setup</li>
-                        </ul>
+        <!-- Offerte Overzicht Section -->
+        <div class="row">
+            <div class="col">
+                <div class="card border-0 shadow-sm">
+                    <div class="card-body p-4">
+                        @if (Model.Offertes == null || !Model.Offertes.Any())
+                        {
+                            <div class="text-center py-5">
+                                <div class="mb-4">
+                                    <i class="bi bi-search text-muted" style="font-size: 4rem;"></i>
+                                </div>
+                                <h4 class="text-muted mb-3">Geen offertes gevonden</h4>
+                                <p class="text-muted mb-4">
+                                    U heeft nog geen offertes aangemaakt. Klik op de<br>
+                                    knop hierboven om uw eerste offerte te maken en<br>
+                                    een onvergetelijke reis samen te stellen.
+                                </p>
+                                <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#createOfferteModal">
+                                    <i class="bi bi-plus-circle me-2"></i>Offerte Aanmaken
+                                </button>
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="table-responsive">
+                                <table class="table table-hover">
+                                    <thead class="table-light">
+                                        <tr>
+                                            <th class="border-0">Naam</th>
+                                            <th class="border-0 text-end">Acties</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach (var offerte in Model.Offertes)
+                                        {
+                                            <tr>
+                                                <td>
+                                                    <strong class="text-dark">@offerte.Naam</strong>
+                                                </td>
+                                                <td class="text-end">
+                                                    <button class="btn btn-sm btn-primary shadow-sm" style="cursor: pointer;" 
+                                                            onmouseover="this.classList.add('shadow')" 
+                                                            onmouseout="this.classList.remove('shadow')">
+                                                        <i class="bi bi-folder-open me-1"></i>Openen
+                                                    </button>
+                                                </td>
+                                            </tr>
+                                        }
+                                    </tbody>
+                                </table>
+                            </div>
+                            
+                            <div class="mt-3 text-muted">
+                                <small><i class="bi bi-info-circle me-1"></i>Totaal: <strong>@Model.Offertes.Count</strong> offerte(s)</small>
+                            </div>
+                        }
                     </div>
                 </div>
             </div>
         </div>
+
+        <!-- Modal for Creating Offerte -->
+        <div class="modal fade" id="createOfferteModal" tabindex="-1" aria-labelledby="createOfferteModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <form asp-controller="Home" asp-action="CreateOfferte" method="post">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="createOfferteModalLabel">
+                                <i class="bi bi-plus-circle me-2"></i>Nieuwe offerte aanmaken
+                            </h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="mb-3">
+                                <label asp-for="CreateOfferte.OfferteNaam" class="form-label fw-semibold">Offertenaam</label>
+                                <input asp-for="CreateOfferte.OfferteNaam" class="form-control form-control-lg" placeholder="Voer de naam van uw offerte in..." />
+                                <span asp-validation-for="CreateOfferte.OfferteNaam" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                                <i class="bi bi-x-circle me-1"></i>Annuleren
+                            </button>
+                            <button type="submit" class="btn btn-primary">
+                                <i class="bi bi-check-circle me-1"></i>Aanmaken
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
 
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    
+    <script>
+        // Clear modal form when modal is hidden
+        document.getElementById('createOfferteModal').addEventListener('hidden.bs.modal', function () {
+            var form = this.querySelector('form');
+            if (form) {
+                form.reset();
+                // Clear any validation errors
+                var validationSpans = form.querySelectorAll('.text-danger');
+                validationSpans.forEach(function(span) {
+                    span.textContent = '';
+                });
+            }
+        });
+
+        // Handle form submission in modal
+        document.querySelector('#createOfferteModal form').addEventListener('submit', function(e) {
+            // Let the form submit normally - the server will handle validation
+            // and if there are errors, it will return the page with validation messages
+        });
+    </script>
+}
