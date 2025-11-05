@@ -1,10 +1,11 @@
-using System;
-using System.Collections.Generic;
 using System.Data;
 using Microsoft.Data.SqlClient;
 using NetMatch.DAL.DAL;
-using NetMatch.DAL.Interfaces;
 using NetMatch.Logic.Models;
+using NetMatch.Dal.Interfaces;
+using NetMatch.DAL.DAL;
+
+
 
 namespace NetMatch.DAL.Repository
 {
@@ -56,7 +57,7 @@ namespace NetMatch.DAL.Repository
             Accommodation accommodation = null;
             using (var conn = new SqlConnection(_connectionString))
             {
-                // 1. Haal de accommodatie op
+                //Haal de accommodatie op
                 using (var cmd = conn.CreateCommand())
                 {
                     conn.Open();
@@ -75,7 +76,7 @@ namespace NetMatch.DAL.Repository
                 
                 if (accommodation == null) return null;
 
-                // 2. Haal de bijbehorende kamers op
+                //Haal de kamers op
                 using (var cmd = conn.CreateCommand())
                 {
                     cmd.CommandType = CommandType.Text;
@@ -184,7 +185,7 @@ namespace NetMatch.DAL.Repository
                             cmd.ExecuteNonQuery();
                         }
                         
-                        // 2. Verwijder accommodatie
+                        //Verwijder accommodatie
                         using (var cmd = conn.CreateCommand())
                         {
                             cmd.Transaction = transaction;
@@ -205,10 +206,86 @@ namespace NetMatch.DAL.Repository
             }
         }
         
-        public void CreateRoomType(RoomType roomType) { /* ... */ }
-        public void GetRoomTypeById(int id) { /* ... */ }
-        public void UpdateRoomType(RoomType roomType) { /* ... */ }
-        public void DeleteRoomType(int id) { /* ... */ }
+        public void CreateRoomType(RoomType roomType)
+        {
+            if (roomType == null) throw new ArgumentNullException(nameof(roomType));
+
+            using (var conn = new SqlConnection(_connectionString))
+            using (var cmd = conn.CreateCommand())
+            {
+                conn.Open();
+                cmd.CommandType = CommandType.Text;
+                cmd.CommandText = @"INSERT INTO RoomTypes (Name, PricePerNight, AccommodationId) 
+                                  VALUES (@Name, @PricePerNight, @AccommodationId);
+                                  SELECT CAST(SCOPE_IDENTITY() AS int);";
+                
+                cmd.Parameters.AddWithValue("@Name", (object)roomType.Name ?? DBNull.Value);
+                cmd.Parameters.AddWithValue("@PricePerNight", roomType.PricePerNight);
+                cmd.Parameters.AddWithValue("@AccommodationId", roomType.AccommodationId);
+
+                var result = cmd.ExecuteScalar();
+                if (result != null && int.TryParse(result.ToString(), out var id))
+                {
+                    roomType.Id = id;
+                }
+            }
+        }
+        public RoomType GetRoomTypeById(int id)
+        {
+            using (var conn = new SqlConnection(_connectionString))
+            using (var cmd = conn.CreateCommand())
+            {
+                conn.Open();
+                cmd.CommandType = CommandType.Text;
+                cmd.CommandText = "SELECT * FROM RoomTypes WHERE Id = @Id";
+                cmd.Parameters.AddWithValue("@Id", id);
+
+                using (var reader = cmd.ExecuteReader())
+                {
+                    if (reader.Read())
+                    {
+                        return MapReaderToRoomType(reader); // Geef RoomType terug
+                    }
+                }
+            }
+            return null; // Niet gevonden
+        }
+        public void UpdateRoomType(RoomType roomType)
+        {
+            if (roomType == null) throw new ArgumentNullException(nameof(roomType));
+
+            using (var conn = new SqlConnection(_connectionString))
+            using (var cmd = conn.CreateCommand())
+            {
+                conn.Open();
+                cmd.CommandType = CommandType.Text;
+                cmd.CommandText = @"UPDATE RoomTypes SET 
+                                      Name = @Name, PricePerNight = @PricePerNight, 
+                                      AccommodationId = @AccommodationId 
+                                  WHERE Id = @Id";
+                
+                cmd.Parameters.AddWithValue("@Id", roomType.Id);
+                cmd.Parameters.AddWithValue("@Name", (object)roomType.Name ?? DBNull.Value);
+                cmd.Parameters.AddWithValue("@PricePerNight", roomType.PricePerNight);
+                cmd.Parameters.AddWithValue("@AccommodationId", roomType.AccommodationId);
+
+                cmd.ExecuteNonQuery();
+            }
+        }
+
+        public void DeleteRoomType(int id)
+        {
+            using (var conn = new SqlConnection(_connectionString))
+            using (var cmd = conn.CreateCommand())
+            {
+                conn.Open();
+                cmd.CommandType = CommandType.Text;
+                cmd.CommandText = "DELETE FROM RoomTypes WHERE Id = @Id";
+                cmd.Parameters.AddWithValue("@Id", id);
+
+                cmd.ExecuteNonQuery();
+            }
+        }
         
         
         private Accommodation MapReaderToAccommodation(SqlDataReader reader)
