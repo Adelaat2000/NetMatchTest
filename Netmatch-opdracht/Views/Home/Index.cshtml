@@ -59,11 +59,9 @@
                                                     <strong class="text-dark">@offerte.Naam</strong>
                                                 </td>
                                                 <td class="text-end">
-                                                    <button class="btn btn-sm btn-primary shadow-sm" style="cursor: pointer;" 
-                                                            onmouseover="this.classList.add('shadow')" 
-                                                            onmouseout="this.classList.remove('shadow')">
+                                                    <a asp-controller="OfferteBuilder" asp-action="Index" class="btn btn-sm btn-primary shadow-sm">
                                                         <i class="bi bi-folder-open me-1"></i>Openen
-                                                    </button>
+                                                    </a>
                                                 </td>
                                             </tr>
                                         }
