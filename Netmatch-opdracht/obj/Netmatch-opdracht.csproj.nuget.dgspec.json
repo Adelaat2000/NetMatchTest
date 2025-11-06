@@ -69,21 +69,21 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/9.0.306/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "/usr/share/dotnet/sdk/9.0.305/PortableRuntimeIdentifierGraph.json"
         }
       }
     },
-    "/Users/alexander/RiderProjects/netmatch-groep-3-mvc/NetMatch.Logic/NetMatch.Logic.csproj": {
+    "/home/svend/netmatch-groep-3-mvc/NetMatch.Logic/NetMatch.Logic.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/Users/alexander/RiderProjects/netmatch-groep-3-mvc/NetMatch.Logic/NetMatch.Logic.csproj",
+        "projectUniqueName": "/home/svend/netmatch-groep-3-mvc/NetMatch.Logic/NetMatch.Logic.csproj",
         "projectName": "NetMatch.Logic",
-        "projectPath": "/Users/alexander/RiderProjects/netmatch-groep-3-mvc/NetMatch.Logic/NetMatch.Logic.csproj",
-        "packagesPath": "/Users/alexander/.nuget/packages/",
-        "outputPath": "/Users/alexander/RiderProjects/netmatch-groep-3-mvc/NetMatch.Logic/obj/",
+        "projectPath": "/home/svend/netmatch-groep-3-mvc/NetMatch.Logic/NetMatch.Logic.csproj",
+        "packagesPath": "/home/svend/.nuget/packages/",
+        "outputPath": "/home/svend/netmatch-groep-3-mvc/NetMatch.Logic/obj/",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "/Users/alexander/.nuget/NuGet/NuGet.Config"
+          "/home/svend/.nuget/NuGet/NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net9.0"
@@ -95,8 +95,8 @@
           "net9.0": {
             "targetAlias": "net9.0",
             "projectReferences": {
-              "/Users/alexander/RiderProjects/netmatch-groep-3-mvc/NetMatch.DAL/NetMatch.DAL.csproj": {
-                "projectPath": "/Users/alexander/RiderProjects/netmatch-groep-3-mvc/NetMatch.DAL/NetMatch.DAL.csproj"
+              "/home/svend/netmatch-groep-3-mvc/NetMatch.DAL/NetMatch.DAL.csproj": {
+                "projectPath": "/home/svend/netmatch-groep-3-mvc/NetMatch.DAL/NetMatch.DAL.csproj"
               }
             }
           }
@@ -132,7 +132,76 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/9.0.306/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "/usr/share/dotnet/sdk/9.0.305/PortableRuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "/home/svend/netmatch-groep-3-mvc/Netmatch-opdracht/Netmatch-opdracht.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "/home/svend/netmatch-groep-3-mvc/Netmatch-opdracht/Netmatch-opdracht.csproj",
+        "projectName": "Netmatch-opdracht",
+        "projectPath": "/home/svend/netmatch-groep-3-mvc/Netmatch-opdracht/Netmatch-opdracht.csproj",
+        "packagesPath": "/home/svend/.nuget/packages/",
+        "outputPath": "/home/svend/netmatch-groep-3-mvc/Netmatch-opdracht/obj/",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "/home/svend/.nuget/NuGet/NuGet.Config"
+        ],
+        "originalTargetFrameworks": [
+          "net9.0"
+        ],
+        "sources": {
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net9.0": {
+            "targetAlias": "net9.0",
+            "projectReferences": {
+              "/home/svend/netmatch-groep-3-mvc/NetMatch.DAL/NetMatch.DAL.csproj": {
+                "projectPath": "/home/svend/netmatch-groep-3-mvc/NetMatch.DAL/NetMatch.DAL.csproj"
+              },
+              "/home/svend/netmatch-groep-3-mvc/NetMatch.Logic/NetMatch.Logic.csproj": {
+                "projectPath": "/home/svend/netmatch-groep-3-mvc/NetMatch.Logic/NetMatch.Logic.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
+        },
+        "SdkAnalysisLevel": "9.0.300"
+      },
+      "frameworks": {
+        "net9.0": {
+          "targetAlias": "net9.0",
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.AspNetCore.App": {
+              "privateAssets": "none"
+            },
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "/usr/share/dotnet/sdk/9.0.305/PortableRuntimeIdentifierGraph.json"
         }
       }
     }
