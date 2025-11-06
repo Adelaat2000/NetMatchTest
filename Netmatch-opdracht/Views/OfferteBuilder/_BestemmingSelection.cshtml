@@ -1,0 +1,75 @@
+<div>
+    <h5 class="mb-3">Bestemming</h5>
+    <p class="text-muted">Kies de bestemming voor je reis</p>
+
+    <!-- Bestemming invoer -->
+    <div class="card mb-4">
+        <div class="card-body">
+            <h6 class="card-title">Voer bestemming in</h6>
+            <div class="row g-2">
+                <div class="col-md-8">
+                    <input type="text" class="form-control" id="destinationInput" placeholder="Voer bestemming in (bijv. Paris, Amsterdam)...">
+                </div>
+                <div class="col-md-4">
+                    <button class="btn btn-teal text-white w-100" id="searchDestinationBtn">
+                        <i class="bi bi-search me-1"></i> Zoeken
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Zoekresultaten -->
+    <div id="destinationResults"></div>
+</div>
+
+<style>
+    .btn-teal {
+        background-color: #14b8a6;
+        border-color: #14b8a6;
+    }
+    .btn-teal:hover {
+        background-color: #0d9488;
+        border-color: #0d9488;
+    }
+</style>
+
+<script>
+    $(document).ready(function() {
+        $('#searchDestinationBtn').on('click', function() {
+            var destination = $('#destinationInput').val().trim();
+            
+            if (destination === '') {
+                $('#destinationResults').html(`
+                    <div class="alert alert-warning">
+                        <i class="bi bi-exclamation-triangle me-2"></i>
+                        Voer eerst een bestemming in.
+                    </div>
+                `);
+                return;
+            }
+            
+            // Simuleer zoekresultaten
+            $('#destinationResults').html(`
+                <div class="alert alert-success mb-3">
+                    <i class="bi bi-check-circle me-2"></i>
+                    Bestemming <strong>${destination}</strong> geselecteerd
+                </div>
+                
+                <div class="card">
+                    <div class="card-body">
+                        <h6 class="card-title">Informatie over ${destination}</h6>
+                        <p class="text-muted">Hier kunnen later details over de bestemming worden weergegeven, zoals populaire accommodaties, activiteiten, etc.</p>
+                    </div>
+                </div>
+            `);
+        });
+        
+        // Allow enter key to search
+        $('#destinationInput').on('keypress', function(e) {
+            if (e.which === 13) {
+                $('#searchDestinationBtn').click();
+            }
+        });
+    });
+</script>

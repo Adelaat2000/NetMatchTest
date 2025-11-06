@@ -1,0 +1,107 @@
+<div class="p-3">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h6 class="fw-bold mb-0">Activiteit Details</h6>
+        <button class="btn btn-sm btn-outline-secondary" id="closeActivityDetailBtn">
+            <i class="bi bi-x-lg"></i>
+        </button>
+    </div>
+
+    <form id="activityDetailForm">
+        <!-- Activiteit Naam -->
+        <div class="mb-3">
+            <label for="activityName" class="form-label small fw-bold">Activiteit Naam</label>
+            <input type="text" class="form-control" id="activityName" placeholder="Bijv. Eiffeltoren bezoek">
+        </div>
+
+        <!-- Datum -->
+        <div class="mb-3">
+            <label for="activityDate" class="form-label small fw-bold">Datum</label>
+            <input type="date" class="form-control" id="activityDate">
+        </div>
+
+        <!-- Tijd -->
+        <div class="row mb-3">
+            <div class="col-6">
+                <label for="activityStartTime" class="form-label small fw-bold">Starttijd</label>
+                <input type="time" class="form-control" id="activityStartTime">
+            </div>
+            <div class="col-6">
+                <label for="activityEndTime" class="form-label small fw-bold">Eindtijd</label>
+                <input type="time" class="form-control" id="activityEndTime">
+            </div>
+        </div>
+
+        <!-- Locatie -->
+        <div class="mb-3">
+            <label for="activityLocation" class="form-label small fw-bold">Locatie</label>
+            <input type="text" class="form-control" id="activityLocation" placeholder="Adres of plaatsnaam">
+        </div>
+
+        <!-- Beschrijving -->
+        <div class="mb-3">
+            <label for="activityDescription" class="form-label small fw-bold">Beschrijving</label>
+            <textarea class="form-control" id="activityDescription" rows="3" placeholder="Beschrijf de activiteit..."></textarea>
+        </div>
+
+        <!-- Prijs -->
+        <div class="mb-3">
+            <label for="activityPrice" class="form-label small fw-bold">Prijs per persoon</label>
+            <div class="input-group">
+                <span class="input-group-text">€</span>
+                <input type="number" class="form-control" id="activityPrice" placeholder="0.00" step="0.01" min="0">
+            </div>
+        </div>
+
+        <!-- Aantal Personen -->
+        <div class="mb-3">
+            <label for="activityPersons" class="form-label small fw-bold">Aantal personen</label>
+            <input type="number" class="form-control" id="activityPersons" placeholder="1" min="1" value="1">
+        </div>
+
+        <!-- Notities -->
+        <div class="mb-3">
+            <label for="activityNotes" class="form-label small fw-bold">Notities (optioneel)</label>
+            <textarea class="form-control" id="activityNotes" rows="2" placeholder="Extra informatie..."></textarea>
+        </div>
+
+        <!-- Buttons -->
+        <div class="d-grid gap-2">
+            <button type="submit" class="btn btn-teal text-white">
+                <i class="bi bi-check-circle me-2"></i> Voeg toe aan reis
+            </button>
+            <button type="button" class="btn btn-outline-secondary" id="cancelActivityBtn">
+                Annuleer
+            </button>
+        </div>
+    </form>
+</div>
+
+<style>
+    .btn-teal {
+        background-color: #14b8a6;
+        border-color: #14b8a6;
+    }
+    .btn-teal:hover {
+        background-color: #0d9488;
+        border-color: #0d9488;
+    }
+</style>
+
+<script>
+    $(document).ready(function() {
+        // Close button
+        $('#closeActivityDetailBtn, #cancelActivityBtn').on('click', function() {
+            $('#rightSidebar').load('@Url.Action("GetReisOverzicht", "OfferteBuilder")');
+        });
+
+        // Form submit
+        $('#activityDetailForm').on('submit', function(e) {
+            e.preventDefault();
+            
+            // Hier zou je de activiteit kunnen opslaan via AJAX
+            // Voor nu gewoon terug naar reisoverzicht
+            alert('Activiteit toegevoegd!');
+            $('#rightSidebar').load('@Url.Action("GetReisOverzicht", "OfferteBuilder")');
+        });
+    });
+</script>

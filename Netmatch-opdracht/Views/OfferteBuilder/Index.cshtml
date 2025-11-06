@@ -1,0 +1,161 @@
+@model Netmatch_opdracht.Models.ViewModels.OfferteBuilderViewModel
+@{
+    ViewData["Title"] = "Offerte Builder";
+}
+
+<div class="container-fluid p-0">
+    <div class="row g-0">
+        <!-- Linker kolom: Navigatie -->
+        <div class="col-md-2 bg-light border-end vh-100" style="overflow-y: auto;">
+            <div class="p-3">
+                <!-- BESTEMMING Section -->
+                <div class="mb-3">
+                    <h6 class="text-uppercase text-muted small fw-bold">BESTEMMING</h6>
+                    <ul class="nav flex-column">
+                        <li class="nav-item">
+                            <a class="nav-link text-dark py-2 category-link active" href="#" data-category="bestemming" data-url="/OfferteBuilder/GetBestemming">
+                                <i class="bi bi-geo-alt me-2"></i> Bestemming
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- ACCOMMODATIE Section -->
+                <div class="mb-3">
+                    <h6 class="text-uppercase text-muted small fw-bold">ACCOMMODATIE</h6>
+                    <ul class="nav flex-column">
+                        <li class="nav-item">
+                            <a class="nav-link text-dark py-2 category-link" href="#" data-category="hotel" data-url="/OfferteBuilder/GetHotels">
+                                <i class="bi bi-building me-2"></i> Hotel
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark py-2 category-link" href="#" data-category="resort" data-url="/OfferteBuilder/GetResorts">
+                                <i class="bi bi-buildings me-2"></i> Resort
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark py-2 category-link" href="#" data-category="villa" data-url="/OfferteBuilder/GetVillas">
+                                <i class="bi bi-house me-2"></i> Villa
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- DAGPLANNING Section -->
+                <div class="mb-3">
+                    <h6 class="text-uppercase text-muted small fw-bold">DAGPLANNING</h6>
+                    <ul class="nav flex-column">
+                        <li class="nav-item">
+                            <a class="nav-link text-dark py-2 category-link" href="#" data-category="dagplanning" data-url="/OfferteBuilder/GetActivities">
+                                <i class="bi bi-calendar-check me-2"></i> Dagplanning
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- VERVOER Section -->
+                <div class="mb-3">
+                    <h6 class="text-uppercase text-muted small fw-bold">VERVOER</h6>
+                    <ul class="nav flex-column">
+                        <li class="nav-item">
+                            <a class="nav-link text-dark py-2 category-link" href="#" data-category="car-rental" data-url="/OfferteBuilder/GetCarRentals">
+                                <i class="bi bi-car-front me-2"></i> Autoverhuur
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark py-2 category-link" href="#" data-category="train" data-url="/OfferteBuilder/GetTrainTickets">
+                                <i class="bi bi-train-front me-2"></i> Treinkaartje
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark py-2 category-link" href="#" data-category="flight" data-url="/OfferteBuilder/GetFlights">
+                                <i class="bi bi-airplane me-2"></i> Vlucht
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Middelste kolom: Content Area -->
+        <div class="col-md-7 vh-100" style="overflow-y: auto;">
+            <div class="p-4">
+                <!-- Header -->
+                <div class="d-flex justify-content-between align-items-center mb-4">
+                    <div>
+                        <h4 class="mb-1">Offertemaker voor {locatie}</h4>
+                    </div>
+                    <div>
+                        <button class="btn btn-outline-secondary me-2">
+                            Preview
+                        </button>
+                        <button class="btn btn-teal text-white">
+                            <i class="bi bi-file-earmark-pdf me-1"></i> Generate PDF
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Dynamic Content Area -->
+                <div id="contentArea">
+                    <!-- Default: Bestemming Selection -->
+                    <partial name="_BestemmingSelection" />
+                </div>
+            </div>
+        </div>
+
+        <!-- Rechter kolom: Reisoverzicht -->
+        <div class="col-md-3 bg-light border-start vh-100" style="overflow-y: auto;" id="rightSidebar">
+            <partial name="_ReisOverzicht" model="Model" />
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        $(document).ready(function() {
+            // Handle category link clicks
+            $('.category-link').on('click', function(e) {
+                e.preventDefault();
+                
+                // Remove active class from all links
+                $('.category-link').removeClass('active');
+                
+                // Add active class to clicked link
+                $(this).addClass('active');
+                
+                // Get the URL from data attribute
+                var url = $(this).data('url');
+                
+                // Load the partial view
+                $('#contentArea').load(url, function(response, status, xhr) {
+                    if (status == "error") {
+                        $('#contentArea').html('<div class="alert alert-danger">Er is een fout opgetreden bij het laden van de content.</div>');
+                    }
+                });
+            });
+        });
+    </script>
+    
+    <style>
+        .btn-teal {
+            background-color: #14b8a6;
+            border-color: #14b8a6;
+        }
+        .btn-teal:hover {
+            background-color: #0d9488;
+            border-color: #0d9488;
+        }
+        .text-teal {
+            color: #14b8a6 !important;
+        }
+        .category-link:hover {
+            background-color: #f8f9fa;
+        }
+        .category-link.active {
+            background-color: #e7f5f4;
+            border-left: 3px solid #14b8a6;
+            font-weight: 500;
+        }
+    </style>
+}
