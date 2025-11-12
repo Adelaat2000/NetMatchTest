@@ -17,6 +17,7 @@ builder.Services.AddScoped<IReisOverzichtRepository, ReisOverzichtRepository>();
 builder.Services.AddScoped<IOfferteRepository>(provider => 
     new OfferteRepository(connectionString));
 
+
 builder.Services.AddScoped<IAccommodationRepository>(provider => 
     new AccommodationRepository(connectionString));
 
