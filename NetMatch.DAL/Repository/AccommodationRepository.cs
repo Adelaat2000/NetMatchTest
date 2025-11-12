@@ -1,14 +1,14 @@
 using System.Data;
 using Microsoft.Data.SqlClient;
 using NetMatch.DAL.DAL;
-using NetMatch.Logic.Models;
+using NetMatch.DAL.Interfaces;
+using System;
+using System.Collections.Generic;
 using NetMatch.Dal.Interfaces;
-using NetMatch.DAL.DAL;
-
 
 
 namespace NetMatch.DAL.Repository
-{
+{ 
     public class AccommodationRepository : IAccommodationRepository
     {
         private readonly string _connectionString;
@@ -20,7 +20,34 @@ namespace NetMatch.DAL.Repository
             _connectionString = connectionString;
         }
 
-        public void Create(Accommodation accommodation)
+        private AccommodationDTO MapReaderToAccommodation(SqlDataReader reader)
+        {
+            return new AccommodationDTO
+            {
+                Id = reader.GetInt32("Id"),
+                Name = reader.IsDBNull("Name") ? null : reader.GetString("Name"),
+                Type = reader.IsDBNull("Type") ? null : reader.GetString("Type"),
+                Location = reader.IsDBNull("Location") ? null : reader.GetString("Location"),
+                StarRating = reader.GetInt32("StarRating"),
+                Description = reader.IsDBNull("Description") ? null : reader.GetString("Description"),
+                Rating = reader.GetDecimal("Rating"),
+                ReviewCount = reader.GetInt32("ReviewCount"),
+                ImageUrl = reader.IsDBNull("ImageUrl") ? null : reader.GetString("ImageUrl"),
+                FromPrice = reader.IsDBNull("FromPrice") ? 0 : reader.GetDecimal("FromPrice")
+            };
+        }
+
+        private RoomType MapReaderToRoomType(SqlDataReader reader)
+        {
+            return new RoomType
+            {
+                Id = reader.GetInt32("Id"),
+                Name = reader.IsDBNull("Name") ? null : reader.GetString("Name"),
+                PricePerNight = reader.GetDecimal("PricePerNight"),
+                AccommodationId = reader.GetInt32("AccommodationId")
+            };
+        }
+        public void Create(AccommodationDTO accommodation)
         {
             if (accommodation == null) throw new ArgumentNullException(nameof(accommodation));
 
@@ -33,7 +60,7 @@ namespace NetMatch.DAL.Repository
                                       (Name, Type, Location, StarRating, Description, Rating, ReviewCount, ImageUrl) 
                                   VALUES 
                                       (@Name, @Type, @Location, @StarRating, @Description, @Rating, @ReviewCount, @ImageUrl);
-                                  SELECT CAST(SCOPE_IDENTITY() AS int);"; // Geeft de nieuwe ID terug
+                                  SELECT CAST(SCOPE_IDENTITY() AS int);";
 
                 cmd.Parameters.AddWithValue("@Name", (object)accommodation.Name ?? DBNull.Value);
                 cmd.Parameters.AddWithValue("@Type", (object)accommodation.Type ?? DBNull.Value);
@@ -52,17 +79,21 @@ namespace NetMatch.DAL.Repository
             }
         }
 
-        public Accommodation GetById(int id)
+        public AccommodationDTO GetById(int id)
         {
-            Accommodation accommodation = null;
+            AccommodationDTO accommodation = null;
             using (var conn = new SqlConnection(_connectionString))
             {
-                //Haal de accommodatie op
                 using (var cmd = conn.CreateCommand())
                 {
                     conn.Open();
                     cmd.CommandType = CommandType.Text;
-                    cmd.CommandText = "SELECT * FROM Accommodations WHERE Id = @Id";
+                    cmd.CommandText = @"SELECT a.*, 
+                                            (SELECT MIN(rt.PricePerNight) 
+                                             FROM RoomTypes rt 
+                                             WHERE rt.AccommodationId = a.Id) AS FromPrice
+                                        FROM Accommodations a
+                                        WHERE a.Id = @Id";
                     cmd.Parameters.AddWithValue("@Id", id);
 
                     using (var reader = cmd.ExecuteReader())
@@ -76,7 +107,8 @@ namespace NetMatch.DAL.Repository
                 
                 if (accommodation == null) return null;
 
-                //Haal de kamers op
+                // Haal de kamers op
+                accommodation.RoomTypes = new List<RoomType>();
                 using (var cmd = conn.CreateCommand())
                 {
                     cmd.CommandType = CommandType.Text;
@@ -95,15 +127,19 @@ namespace NetMatch.DAL.Repository
             return accommodation;
         }
 
-        public IEnumerable<Accommodation> GetAll()
+        public IEnumerable<AccommodationDTO> GetAll()
         {
-            var list = new List<Accommodation>();
+            var list = new List<AccommodationDTO>();
             using (var conn = new SqlConnection(_connectionString))
             using (var cmd = conn.CreateCommand())
             {
                 conn.Open();
                 cmd.CommandType = CommandType.Text;
-                cmd.CommandText = "SELECT * FROM Accommodations";
+                cmd.CommandText = @"SELECT a.*, 
+                                        (SELECT MIN(rt.PricePerNight) 
+                                         FROM RoomTypes rt 
+                                         WHERE rt.AccommodationId = a.Id) AS FromPrice
+                                    FROM Accommodations a";
 
                 using (var reader = cmd.ExecuteReader())
                 {
@@ -116,15 +152,20 @@ namespace NetMatch.DAL.Repository
             return list;
         }
 
-        public IEnumerable<Accommodation> GetByType(string type)
+        public IEnumerable<AccommodationDTO> GetByType(string type)
         {
-            var list = new List<Accommodation>();
+            var list = new List<AccommodationDTO>();
             using (var conn = new SqlConnection(_connectionString))
             using (var cmd = conn.CreateCommand())
             {
                 conn.Open();
                 cmd.CommandType = CommandType.Text;
-                cmd.CommandText = "SELECT * FROM Accommodations WHERE Type = @Type";
+                cmd.CommandText = @"SELECT a.*, 
+                                        (SELECT MIN(rt.PricePerNight) 
+                                         FROM RoomTypes rt 
+                                         WHERE rt.AccommodationId = a.Id) AS FromPrice
+                                    FROM Accommodations a
+                                    WHERE a.Type = @Type";
                 cmd.Parameters.AddWithValue("@Type", type);
 
                 using (var reader = cmd.ExecuteReader())
@@ -138,7 +179,7 @@ namespace NetMatch.DAL.Repository
             return list;
         }
 
-        public void Update(Accommodation accommodation)
+        public void Update(AccommodationDTO accommodation)
         {
             if (accommodation == null) throw new ArgumentNullException(nameof(accommodation));
 
@@ -185,7 +226,6 @@ namespace NetMatch.DAL.Repository
                             cmd.ExecuteNonQuery();
                         }
                         
-                        //Verwijder accommodatie
                         using (var cmd = conn.CreateCommand())
                         {
                             cmd.Transaction = transaction;
@@ -205,7 +245,6 @@ namespace NetMatch.DAL.Repository
                 }
             }
         }
-        
         public void CreateRoomType(RoomType roomType)
         {
             if (roomType == null) throw new ArgumentNullException(nameof(roomType));
@@ -230,6 +269,7 @@ namespace NetMatch.DAL.Repository
                 }
             }
         }
+        
         public RoomType GetRoomTypeById(int id)
         {
             using (var conn = new SqlConnection(_connectionString))
@@ -244,12 +284,13 @@ namespace NetMatch.DAL.Repository
                 {
                     if (reader.Read())
                     {
-                        return MapReaderToRoomType(reader); // Geef RoomType terug
+                        return MapReaderToRoomType(reader);
                     }
                 }
             }
-            return null; // Niet gevonden
+            return null;
         }
+        
         public void UpdateRoomType(RoomType roomType)
         {
             if (roomType == null) throw new ArgumentNullException(nameof(roomType));
@@ -285,34 +326,6 @@ namespace NetMatch.DAL.Repository
 
                 cmd.ExecuteNonQuery();
             }
-        }
-        
-        
-        private Accommodation MapReaderToAccommodation(SqlDataReader reader)
-        {
-            return new Accommodation
-            {
-                Id = reader.GetInt32("Id"),
-                Name = reader.IsDBNull("Name") ? null : reader.GetString("Name"),
-                Type = reader.IsDBNull("Type") ? null : reader.GetString("Type"),
-                Location = reader.IsDBNull("Location") ? null : reader.GetString("Location"),
-                StarRating = reader.GetInt32("StarRating"),
-                Description = reader.IsDBNull("Description") ? null : reader.GetString("Description"),
-                Rating = reader.GetDecimal("Rating"),
-                ReviewCount = reader.GetInt32("ReviewCount"),
-                ImageUrl = reader.IsDBNull("ImageUrl") ? null : reader.GetString("ImageUrl")
-            };
-        }
-
-        private RoomType MapReaderToRoomType(SqlDataReader reader)
-        {
-            return new RoomType
-            {
-                Id = reader.GetInt32("Id"),
-                Name = reader.IsDBNull("Name") ? null : reader.GetString("Name"),
-                PricePerNight = reader.GetDecimal("PricePerNight"),
-                AccommodationId = reader.GetInt32("AccommodationId")
-            };
         }
     }
 }

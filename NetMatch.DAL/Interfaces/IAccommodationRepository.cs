@@ -1,5 +1,4 @@
 using NetMatch.DAL.DAL;
-using NetMatch.Logic.Models;
 
 namespace NetMatch.Dal.Interfaces
 
@@ -7,11 +6,11 @@ namespace NetMatch.Dal.Interfaces
     public interface IAccommodationRepository
     {
         // CRUD voor Accommodaties
-        void Create(Accommodation accommodation);
-        Accommodation GetById(int id);
-        IEnumerable<Accommodation> GetAll();
-        IEnumerable<Accommodation> GetByType(string type);
-        void Update(Accommodation accommodation);
+        void Create(AccommodationDTO accommodation);
+        AccommodationDTO GetById(int id);
+        IEnumerable<AccommodationDTO> GetAll();
+        IEnumerable<AccommodationDTO> GetByType(string type);
+        void Update(AccommodationDTO accommodation);
         void Delete(int id);
         
         // CRUD voor Kamertypes

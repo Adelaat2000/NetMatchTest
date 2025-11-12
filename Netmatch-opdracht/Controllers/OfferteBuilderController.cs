@@ -1,10 +1,17 @@
 using Microsoft.AspNetCore.Mvc;
 using Netmatch_opdracht.Models.ViewModels;
+using NetMatch.Logic.Services;
 
 namespace Netmatch_opdracht.Controllers
 {
     public class OfferteBuilderController : Controller
     {
+        private readonly AccommodationService _accommodationService;
+        public OfferteBuilderController(AccommodationService accommodationService)
+        {
+            _accommodationService = accommodationService;
+        }
+    
         public IActionResult Index()
         {
             var viewModel = new OfferteBuilderViewModel
@@ -23,19 +30,23 @@ namespace Netmatch_opdracht.Controllers
             return PartialView("_BestemmingSelection");
         }
 
+        //Accomodations
         public IActionResult GetHotels()
         {
-            return PartialView("_HotelSelection");
+            var hotels = _accommodationService.GetAccommodationsByType("Hotel");        
+            return PartialView("_AccommodationList", hotels);
         }
 
         public IActionResult GetResorts()
         {
-            return PartialView("_ResortSelection");
+            var resorts = _accommodationService.GetAccommodationsByType("Resort");
+            return PartialView("_AccommodationList", resorts);
         }
 
         public IActionResult GetVillas()
         {
-            return PartialView("_VillaSelection");
+            var villas = _accommodationService.GetAccommodationsByType("Villa");
+            return PartialView("_AccommodationList", villas);
         }
 
         public IActionResult GetActivities()
