@@ -1,13 +1,16 @@
+using System.Collections.Generic;
+using System.Linq;
 using NetMatch.DAL.DAL;
 using NetMatch.Logic.Models;
-using System.Linq;
-using System.Collections.Generic;
+using DalAccommodationDto = NetMatch.DAL.DAL.AccommodationDTO;
+using DalRoomType = NetMatch.DAL.DAL.RoomType;
+using LogicRoomType = NetMatch.Logic.Models.RoomType;
 
 namespace NetMatch.Logic.Mappers
 {
     public static class AccommodationMapper
     {
-        public static Accommodation ToModel(AccommodationDTO dto)
+        public static Accommodation ToModel(DalAccommodationDto dto)
         {
             if (dto == null) return null;
 
@@ -23,11 +26,11 @@ namespace NetMatch.Logic.Mappers
                 ReviewCount = dto.ReviewCount,
                 ImageUrl = dto.ImageUrl,
                 FromPrice = dto.FromPrice,
-                RoomTypes = dto.RoomTypes?.Select(ToModel).ToList() ?? new List<RoomType>()
+                RoomTypes = dto.RoomTypes?.Select(ToModel).ToList() ?? new List<LogicRoomType>()
             };
         }
 
-        public static AccommodationDTO ToEntity(Accommodation model)
+        public static DalAccommodationDto ToEntity(Accommodation model)
         {
             if (model == null) return null;
 
@@ -43,15 +46,15 @@ namespace NetMatch.Logic.Mappers
                 ReviewCount = model.ReviewCount,
                 ImageUrl = model.ImageUrl,
                 FromPrice = model.FromPrice,
-                RoomTypes = model.RoomTypes?.Select(ToEntity).ToList() ?? new List<RoomType>()
+                RoomTypes = model.RoomTypes?.Select(ToEntity).ToList() ?? new List<DalRoomType>()
             };
         }
 
-        public static RoomType ToModel(NetMatch.DAL.DAL.RoomType entity)
+        public static LogicRoomType ToModel(DalRoomType entity)
         {
             if (entity == null) return null;
-            
-            return new RoomType
+
+            return new LogicRoomType
             {
                 Id = entity.Id,
                 Name = entity.Name,
@@ -60,11 +63,11 @@ namespace NetMatch.Logic.Mappers
             };
         }
 
-        public static NetMatch.DAL.DAL.RoomType ToEntity(RoomType model)
+        public static DalRoomType ToEntity(LogicRoomType model)
         {
             if (model == null) return null;
-            
-            return new NetMatch.DAL.DAL.RoomType
+
+            return new DalRoomType
             {
                 Id = model.Id,
                 Name = model.Name,

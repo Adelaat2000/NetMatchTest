@@ -2,8 +2,9 @@ using System.Data;
 using Microsoft.Data.SqlClient;
 using NetMatch.DAL.DAL;
 using NetMatch.DAL.Interfaces;
-using System;
-using System.Collections.Generic;
+using NetMatch.DAL.DAL;
+using NetMatch.DAL.Interfaces;
+using NetMatch.DAL.Extensions;
 
 
 namespace NetMatch.DAL.Repository

@@ -1,10 +1,10 @@
 using Microsoft.AspNetCore.Mvc;
-using Netmatch_opdracht.Models;
 using Netmatch_opdracht.Models.ViewModels;
 using NetMatch.Logic.Services;
 using NetMatch.Logic.Models;
 using System.Collections.Generic;
 using System.Linq;
+using Netmatch_opdracht.Models;
 
 namespace Netmatch_opdracht.Controllers
 {
@@ -36,13 +36,11 @@ namespace Netmatch_opdracht.Controllers
             return View(viewModel);
         }
 
-        // Partial views voor verschillende categorieën
         public IActionResult GetBestemming()
         {
             return PartialView("_BestemmingSelection");
         }
 
-        //Accomodations
         public IActionResult GetHotels()
         {
             AccommodationListViewModel viewModel = BuildAccommodationList("Hotel");
@@ -81,7 +79,6 @@ namespace Netmatch_opdracht.Controllers
             return PartialView("_FlightSelection");
         }
 
-        // Rechter sidebar partial views
         public IActionResult GetReisOverzicht()
         {
             ReisOverzichtViewModel reisOverzicht = MapTripToViewModel(_reisOverzichtService.GetTripById(1));
@@ -96,27 +93,21 @@ namespace Netmatch_opdracht.Controllers
         private AccommodationListViewModel BuildAccommodationList(string type)
         {
             IEnumerable<Accommodation> accommodations = _accommodationService.GetAccommodationsByType(type);
-            List<AccommodationViewModel> models = new List<AccommodationViewModel>();
 
-            foreach (Accommodation accommodation in accommodations)
+            List<AccommodationViewModel> models = accommodations.Select(accommodation => new AccommodationViewModel
             {
-                AccommodationViewModel model = new AccommodationViewModel
-                {
-                    Id = accommodation.Id,
-                    Name = accommodation.Name,
-                    Type = accommodation.Type,
-                    Location = accommodation.Location,
-                    StarRating = accommodation.StarRating,
-                    Description = accommodation.Description,
-                    Rating = accommodation.Rating,
-                    ReviewCount = accommodation.ReviewCount,
-                    ImageUrl = accommodation.ImageUrl,
-                    FromPrice = accommodation.FromPrice,
-                    PriceForStay = accommodation.FromPrice * 3
-                };
-
-                models.Add(model);
-            }
+                Id = accommodation.Id,
+                Name = accommodation.Name,
+                Type = accommodation.Type,
+                Location = accommodation.Location,
+                StarRating = accommodation.StarRating,
+                Description = accommodation.Description,
+                Rating = accommodation.Rating,
+                ReviewCount = accommodation.ReviewCount,
+                ImageUrl = accommodation.ImageUrl,
+                FromPrice = accommodation.FromPrice,
+                PriceForStay = accommodation.FromPrice * 3
+            }).ToList();
 
             return new AccommodationListViewModel
             {
@@ -127,7 +118,7 @@ namespace Netmatch_opdracht.Controllers
             };
         }
 
-        private ReisOverzichtViewModel MapTripToViewModel(Logic.Models.ReisOverzichtModel.Trip trip)
+        private ReisOverzichtViewModel MapTripToViewModel(ReisOverzichtModel.Trip trip)
         {
             if (trip == null)
             {
@@ -148,7 +139,7 @@ namespace Netmatch_opdracht.Controllers
                 {
                     Route = t.Route,
                     Date = t.Date.ToString("dd-MM-yyyy"),
-                    Time = t.Time.ToString(@"hh\:mm"),
+                    Time = t.Time.ToString(@"hh\\:mm"),
                     Price = $"{t.Price:C}"
                 }).ToList()
             };

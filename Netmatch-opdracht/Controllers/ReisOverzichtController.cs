@@ -1,8 +1,9 @@
 using Microsoft.AspNetCore.Mvc;
-using Netmatch_opdracht.Models;
 using NetMatch.Logic.Services;
+using NetMatch.Logic.Models;
 using Netmatch_opdracht.Models.ViewModels;
 using System.Linq;
+using Netmatch_opdracht.Models;
 
 namespace Netmatch_opdracht.Controllers
 {
@@ -23,7 +24,7 @@ namespace Netmatch_opdracht.Controllers
                 return BadRequest("Geen selectie ontvangen.");
             }
 
-            Logic.Models.ReisOverzichtModel.Trip trip = _service.UpdateAccommodationForTrip(
+            ReisOverzichtModel.Trip trip = _service.UpdateAccommodationForTrip(
                 selection.TripId,
                 selection.AccommodationId,
                 selection.Nights,
@@ -35,13 +36,13 @@ namespace Netmatch_opdracht.Controllers
 
         public IActionResult ToonReisOverzicht(int tripId)
         {
-            var trip = _service.GetTripById(tripId);
-            ReisOverzichtViewModel vm = MapTripToViewModel(trip);
+            ReisOverzichtModel.Trip trip = _service.GetTripById(tripId);
 
-            return View(vm);
+            ReisOverzichtViewModel viewModel = MapTripToViewModel(trip);
+            return View(viewModel);
         }
 
-        private ReisOverzichtViewModel MapTripToViewModel(Logic.Models.ReisOverzichtModel.Trip trip)
+        private ReisOverzichtViewModel MapTripToViewModel(ReisOverzichtModel.Trip trip)
         {
             if (trip == null)
             {
@@ -62,7 +63,7 @@ namespace Netmatch_opdracht.Controllers
                 {
                     Route = t.Route,
                     Date = t.Date.ToString("dd-MM-yyyy"),
-                    Time = t.Time.ToString(@"hh\:mm"),
+                    Time = t.Time.ToString(@"hh\\:mm"),
                     Price = $"{t.Price:C}"
                 }).ToList()
             };

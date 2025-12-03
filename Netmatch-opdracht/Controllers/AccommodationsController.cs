@@ -2,12 +2,11 @@ using Microsoft.AspNetCore.Mvc;
 using NetMatch.Logic.Models;
 using NetMatch.Logic.Services;
 using System.Collections.Generic;
-using NetMatch.DAL.DAL;
 
 namespace Netmatch_opdracht.Controllers
 {
     [ApiController]
-    [Route("api/[controller]")] 
+    [Route("api/[controller]")]
     public class AccommodationsController : ControllerBase
     {
         private readonly AccommodationService _accommodationService;
@@ -23,8 +22,6 @@ namespace Netmatch_opdracht.Controllers
             _accommodationService.CreateAccommodation(accommodation);
             return CreatedAtAction(nameof(GetAccommodationById), new { id = accommodation.Id }, accommodation);
         }
-        
-        
 
         [HttpGet]
         public ActionResult<IEnumerable<Accommodation>> GetAllAccommodations()
@@ -35,7 +32,7 @@ namespace Netmatch_opdracht.Controllers
         [HttpGet("{id}")]
         public ActionResult<Accommodation> GetAccommodationById(int id)
         {
-            var accommodation = _accommodationService.GetAccommodationById(id);
+            Accommodation accommodation = _accommodationService.GetAccommodationById(id);
             if (accommodation == null)
             {
                 return NotFound();
@@ -57,21 +54,21 @@ namespace Netmatch_opdracht.Controllers
                 return BadRequest("ID in URL komt niet overeen met ID in body.");
             }
             _accommodationService.UpdateAccommodation(accommodation);
-            return NoContent(); 
+            return NoContent();
         }
 
         [HttpDelete("{id}")]
         public IActionResult DeleteAccommodation(int id)
         {
             _accommodationService.DeleteAccommodation(id);
-            return NoContent(); 
+            return NoContent();
         }
 
         [HttpPost("roomtype")]
         public IActionResult CreateRoomType([FromBody] RoomType roomType)
         {
             _accommodationService.CreateRoomType(roomType);
-            return Ok(roomType); 
+            return Ok(roomType);
         }
 
         [HttpDelete("roomtype/{id}")]

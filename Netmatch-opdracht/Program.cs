@@ -12,21 +12,14 @@ builder.Services.AddControllersWithViews();
 var connectionString = builder.Configuration.GetConnectionString("NetmatchDB");
 
 // Register repositories (DAL layer) - these need the connection string
-builder.Services.AddScoped<IReisOverzichtRepository>(provider =>
-    new ReisOverzichtRepository(connectionString));
-builder.Services.AddScoped<IOfferteRepository>(provider =>
-    new OfferteRepository(connectionString));
-
-
-builder.Services.AddScoped<IAccommodationRepository>(provider => 
-    new AccommodationRepository(connectionString));
+builder.Services.AddScoped<IReisOverzichtRepository>(_ => new ReisOverzichtRepository(connectionString));
+builder.Services.AddScoped<IOfferteRepository>(_ => new OfferteRepository(connectionString));
+builder.Services.AddScoped<IAccommodationRepository>(_ => new AccommodationRepository(connectionString));
 
 // Register services (Logic layer) - these depend on repository interfaces
 builder.Services.AddScoped<ReisOverzichtService>();
 builder.Services.AddScoped<OfferteService>();
-
 builder.Services.AddScoped<AccommodationService>();
-
 
 var app = builder.Build();
 
@@ -39,4 +32,13 @@ if (!app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+app.UseStaticFiles();
+
 app.UseRouting();
+app.UseAuthorization();
+
+app.MapControllerRoute(
+    name: "default",
+    pattern: "{controller=Home}/{action=Index}/{id?}");
+
+app.Run();
