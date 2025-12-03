@@ -23,6 +23,7 @@
                 </div>
                 <p class="mt-3 text-sm text-gray-600 line-clamp-2">@acc.Description</p>
             </div>
+
             <div class="mt-auto flex items-end justify-between pt-3">
                 <div>
                     <p class="text-sm text-gray-500">from</p>
@@ -42,26 +43,27 @@
 }
 
 <script>
-    document.querySelectorAll('.select-hotel').forEach(function (button) {
-        button.addEventListener('click', async function () {
-            const payload = {
-                TripId: parseInt(button.getAttribute('data-trip')),
-                AccommodationId: parseInt(button.getAttribute('data-acc')),
-                Nights: parseInt(button.getAttribute('data-nights')),
-                Guests: parseInt(button.getAttribute('data-guests'))
-            };
+document.addEventListener("click", async function (e) {
+    if (!e.target.classList.contains("select-hotel")) return;
 
-            const response = await fetch('/ReisOverzicht/SelectAccommodation', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(payload)
-            });
+    const btn = e.target;
 
-            if (response.ok) {
-                const html = await response.text();
-                const sidebar = document.getElementById('rightSidebar');
-                if (sidebar) sidebar.innerHTML = html;
-            }
-        });
+    const payload = {
+        TripId: parseInt(btn.dataset.trip),
+        AccommodationId: parseInt(btn.dataset.acc),
+        Nights: parseInt(btn.dataset.nights),
+        Guests: parseInt(btn.dataset.guests)
+    };
+
+    const response = await fetch('/ReisOverzicht/SelectAccommodation', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
     });
+
+    if (response.ok) {
+        const html = await response.text();
+        document.getElementById('rightSidebar').innerHTML = html;
+    }
+});
 </script>

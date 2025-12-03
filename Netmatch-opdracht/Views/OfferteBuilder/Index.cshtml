@@ -1,6 +1,6 @@
 @model Netmatch_opdracht.Models.ViewModels.OfferteBuilderViewModel
 @{
-    ViewData["Title"] = "Offerte Builder";
+ViewData["Title"] = "Offerte Builder";
 }
 
 <div class="container-fluid p-0">
@@ -14,7 +14,8 @@
                     <ul class="nav flex-column">
                         <li class="nav-item">
                             <a class="nav-link text-dark py-2 category-link active"
-                               href="#" data-category="bestemming" data-url="/OfferteBuilder/GetBestemming">
+                               href="#"
+                               data-url="/OfferteBuilder/GetBestemming">
                                 <i class="bi bi-geo-alt me-2"></i> Bestemming
                             </a>
                         </li>
@@ -26,19 +27,22 @@
                     <ul class="nav flex-column">
                         <li class="nav-item">
                             <a class="nav-link text-dark py-2 category-link"
-                               href="#" data-category="hotel" data-url="/OfferteBuilder/GetHotels">
+                               href="#"
+                               data-url="/OfferteBuilder/GetHotels">
                                 <i class="bi bi-building me-2"></i> Hotel
                             </a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link text-dark py-2 category-link"
-                               href="#" data-category="resort" data-url="/OfferteBuilder/GetResorts">
+                               href="#"
+                               data-url="/OfferteBuilder/GetResorts">
                                 <i class="bi bi-buildings me-2"></i> Resort
                             </a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link text-dark py-2 category-link"
-                               href="#" data-category="villa" data-url="/OfferteBuilder/GetVillas">
+                               href="#"
+                               data-url="/OfferteBuilder/GetVillas">
                                 <i class="bi bi-house me-2"></i> Villa
                             </a>
                         </li>
@@ -50,7 +54,8 @@
                     <ul class="nav flex-column">
                         <li class="nav-item">
                             <a class="nav-link text-dark py-2 category-link"
-                               href="#" data-category="dagplanning" data-url="/OfferteBuilder/GetActivities">
+                               href="#"
+                               data-url="/OfferteBuilder/GetActivities">
                                 <i class="bi bi-calendar-check me-2"></i> Dagplanning
                             </a>
                         </li>
@@ -62,19 +67,22 @@
                     <ul class="nav flex-column">
                         <li class="nav-item">
                             <a class="nav-link text-dark py-2 category-link"
-                               href="#" data-category="car-rental" data-url="/OfferteBuilder/GetCarRentals">
+                               href="#"
+                               data-url="/OfferteBuilder/GetCarRentals">
                                 <i class="bi bi-car-front me-2"></i> Autoverhuur
                             </a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link text-dark py-2 category-link"
-                               href="#" data-category="train" data-url="/OfferteBuilder/GetTrainTickets">
+                               href="#"
+                               data-url="/OfferteBuilder/GetTrainTickets">
                                 <i class="bi bi-train-front me-2"></i> Treinkaartje
                             </a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link text-dark py-2 category-link"
-                               href="#" data-category="flight" data-url="/OfferteBuilder/GetFlights">
+                               href="#"
+                               data-url="/OfferteBuilder/GetFlights">
                                 <i class="bi bi-airplane me-2"></i> Vlucht
                             </a>
                         </li>
@@ -87,7 +95,7 @@
         <div class="col-md-7 vh-100" style="overflow-y: auto;">
             <div class="p-4">
                 <div class="d-flex justify-content-between align-items-center mb-4">
-                    <h4 class="mb-1">Offertemaker voor {locatie}</h4>
+                    <h4 class="mb-1">Offertemaker</h4>
                     <div>
                         <button class="btn btn-outline-secondary me-2">Preview</button>
                         <button class="btn btn-teal text-white">
@@ -112,30 +120,32 @@
 @section Scripts {
 <script>
     $(document).ready(function () {
-        $('.category-link').on('click', function (e) {
+        $(document).on("click", ".category-link", function (e) {
             e.preventDefault();
-            $('.category-link').removeClass('active');
-            $(this).addClass('active');
-            var url = $(this).data('url');
+            $(".category-link").removeClass("active");
+            $(this).addClass("active");
 
-            $('#contentArea').load(url, function (response, status) {
+            const url = $(this).data("url");
+            $("#contentArea").load(url, function (response, status) {
                 if (status === "error") {
-                    $('#contentArea').html('<div class="alert alert-danger">Er is een fout opgetreden bij het laden van de content.</div>');
+                    $("#contentArea").html('<div class="alert alert-danger">Er is een fout opgetreden bij het laden van de content.</div>');
                 }
             });
         });
 
-        $(document).on("click", ".select-accommodation", function () {
+        $(document).on("click", ".select-hotel", function () {
+            const payload = {
+                TripId: parseInt($(this).data("trip")),
+                AccommodationId: parseInt($(this).data("acc")),
+                Nights: parseInt($(this).data("nights")),
+                Guests: parseInt($(this).data("guests"))
+            };
+
             $.ajax({
                 url: "/ReisOverzicht/SelectAccommodation",
                 type: "POST",
                 contentType: "application/json",
-                data: JSON.stringify({
-                    TripId: $(this).data("trip"),
-                    AccommodationId: $(this).data("id"),
-                    Nights: $(this).data("nights"),
-                    Guests: $(this).data("guests")
-                }),
+                data: JSON.stringify(payload),
                 success: function (html) {
                     $("#rightSidebar").html(html);
                 }
