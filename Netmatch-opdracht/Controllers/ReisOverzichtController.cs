@@ -31,7 +31,7 @@ namespace Netmatch_opdracht.Controllers
                 selection.Guests);
 
             ReisOverzichtViewModel viewModel = MapTripToViewModel(trip);
-            return PartialView("_ReisOverzichtSummary", viewModel);
+            return PartialView("~/Views/OfferteBuilder/_ReisOverzichtSummary.cshtml", viewModel);
         }
 
         public IActionResult ToonReisOverzicht(int tripId)
@@ -39,7 +39,7 @@ namespace Netmatch_opdracht.Controllers
             ReisOverzichtModel.Trip trip = _service.GetTripById(tripId);
 
             ReisOverzichtViewModel viewModel = MapTripToViewModel(trip);
-            return View(viewModel);
+            return View("~/Views/OfferteBuilder/_ToonReisOverzicht.cshtml", viewModel);
         }
 
         private ReisOverzichtViewModel MapTripToViewModel(ReisOverzichtModel.Trip trip)

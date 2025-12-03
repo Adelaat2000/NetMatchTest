@@ -29,9 +29,9 @@
                     <p class="text-xl font-bold text-gray-800">€@(Math.Round(acc.FromPrice))<span class="text-sm font-normal text-gray-500">/night</span></p>
                 </div>
 
-                <button class="rounded-md bg-[var(--primary-color)] px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-opacity-90 select-hotel"
+                <button class="rounded-md bg-[var(--primary-color)] px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-opacity-90 select-accommodation"
                         data-trip="@Model.TripId"
-                        data-acc="@acc.Id"
+                        data-id="@acc.Id"
                         data-nights="@Model.Nights"
                         data-guests="@Model.Guests">
                     Select Hotel
@@ -40,28 +40,3 @@
         </div>
     </div>
 }
-
-<script>
-    document.querySelectorAll('.select-hotel').forEach(function (button) {
-        button.addEventListener('click', async function () {
-            const payload = {
-                TripId: parseInt(button.getAttribute('data-trip')),
-                AccommodationId: parseInt(button.getAttribute('data-acc')),
-                Nights: parseInt(button.getAttribute('data-nights')),
-                Guests: parseInt(button.getAttribute('data-guests'))
-            };
-
-            const response = await fetch('/ReisOverzicht/SelectAccommodation', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(payload)
-            });
-
-            if (response.ok) {
-                const html = await response.text();
-                const sidebar = document.getElementById('rightSidebar');
-                if (sidebar) sidebar.innerHTML = html;
-            }
-        });
-    });
-</script>
