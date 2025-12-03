@@ -1,5 +1,3 @@
-using System.Collections.Generic;
-using NetMatch.DAL.DAL;
 
 namespace NetMatch.Logic.Models
 {

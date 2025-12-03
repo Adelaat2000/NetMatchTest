@@ -22,7 +22,7 @@ namespace NetMatch.Logic.Mappers
                 Rating = dto.Rating,
                 ReviewCount = dto.ReviewCount,
                 ImageUrl = dto.ImageUrl,
-                FromPrice = 0, 
+                FromPrice = dto.FromPrice,
                 RoomTypes = dto.RoomTypes?.Select(ToModel).ToList() ?? new List<RoomType>()
             };
         }
@@ -41,7 +41,9 @@ namespace NetMatch.Logic.Mappers
                 Description = model.Description,
                 Rating = model.Rating,
                 ReviewCount = model.ReviewCount,
-                ImageUrl = model.ImageUrl
+                ImageUrl = model.ImageUrl,
+                FromPrice = model.FromPrice,
+                RoomTypes = model.RoomTypes?.Select(ToEntity).ToList() ?? new List<RoomType>()
             };
         }
 

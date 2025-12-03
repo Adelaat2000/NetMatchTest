@@ -13,8 +13,9 @@ builder.Services.AddControllersWithViews();
 var connectionString = builder.Configuration.GetConnectionString("NetmatchDB");
 
 // Register repositories (DAL layer) - these need the connection string
-builder.Services.AddScoped<IReisOverzichtRepository, ReisOverzichtRepository>();
-builder.Services.AddScoped<IOfferteRepository>(provider => 
+builder.Services.AddScoped<IReisOverzichtRepository>(provider =>
+    new ReisOverzichtRepository(connectionString));
+builder.Services.AddScoped<IOfferteRepository>(provider =>
     new OfferteRepository(connectionString));
 
 
@@ -40,15 +41,3 @@ if (!app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 app.UseRouting();
-
-app.UseAuthorization();
-
-app.MapStaticAssets();
-
-app.MapControllerRoute(
-        name: "default",
-        pattern: "{controller=Home}/{action=Index}/{id?}")
-    .WithStaticAssets();
-
-
-app.Run();

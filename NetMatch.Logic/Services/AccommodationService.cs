@@ -2,8 +2,8 @@ using NetMatch.DAL.Interfaces;
 using NetMatch.Logic.Models;
 using System.Collections.Generic;
 using NetMatch.Logic.Mappers;
-using NetMatch.DAL.DAL;
 using NetMatch.Dal.Interfaces;
+using System.Linq;
 
 namespace NetMatch.Logic.Services
 {

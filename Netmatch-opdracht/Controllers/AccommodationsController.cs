@@ -23,6 +23,8 @@ namespace Netmatch_opdracht.Controllers
             _accommodationService.CreateAccommodation(accommodation);
             return CreatedAtAction(nameof(GetAccommodationById), new { id = accommodation.Id }, accommodation);
         }
+        
+        
 
         [HttpGet]
         public ActionResult<IEnumerable<Accommodation>> GetAllAccommodations()

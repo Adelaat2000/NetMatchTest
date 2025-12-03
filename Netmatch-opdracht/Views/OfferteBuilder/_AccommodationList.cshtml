@@ -1,6 +1,7 @@
-@model IEnumerable<NetMatch.Logic.Models.Accommodation>
++34-4
+@model Netmatch_opdracht.Models.AccommodationListViewModel
 
-@foreach (var acc in Model)
+@foreach (var acc in Model.Accommodations)
 {
     <div class="flex gap-4 rounded-lg border border-gray-200 bg-white p-4 shadow-sm transition-shadow hover:shadow-md mb-4">
         <img alt="@acc.Name" class="h-40 w-40 rounded-md object-cover" src="@(acc.ImageUrl ?? "https://via.placeholder.com/160")" />
@@ -28,8 +29,38 @@
                     <p class="text-sm text-gray-500">from</p>
                     <p class="text-xl font-bold text-gray-800">€@(Math.Round(acc.FromPrice))<span class="text-sm font-normal text-gray-500">/night</span></p>
                 </div>
-                <button class="rounded-md bg-[var(--primary-color)] px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-opacity-90">Select Hotel</button>
+                <button class="rounded-md bg-[var(--primary-color)] px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-opacity-90 select-hotel"
+                        data-trip="@Model.TripId" data-acc="@acc.Id" data-nights="@Model.Nights" data-guests="@Model.Guests">Select Hotel</button>
             </div>
         </div>
     </div>
 }
+
+<script>
+    document.querySelectorAll('.select-hotel').forEach(function (button) {
+        button.addEventListener('click', async function () {
+            const payload = {
+                tripId: parseInt(button.getAttribute('data-trip')),
+                accommodationId: parseInt(button.getAttribute('data-acc')),
+                nights: parseInt(button.getAttribute('data-nights')),
+                guests: parseInt(button.getAttribute('data-guests'))
+            };
+
+            const response = await fetch('/ReisOverzicht/SelectAccommodation', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(payload)
+            });
+
+            if (response.ok) {
+                const html = await response.text();
+                const sidebar = document.getElementById('rightSidebar');
+                if (sidebar) {
+                    sidebar.innerHTML = html;
+                }
+            }
+        });
+    });
+</script>

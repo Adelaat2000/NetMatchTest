@@ -106,32 +106,32 @@
 
         <!-- Rechter kolom: Reisoverzicht -->
         <div class="col-md-3 bg-light border-start vh-100" style="overflow-y: auto;" id="rightSidebar">
-            <partial name="_ReisOverzicht" model="Model" />
+            <partial name="~/Views/ReisOverzicht/_ReisOverzichtSummary.cshtml" model="Model.ReisOverzicht" />
         </div>
     </div>
 </div>
 
 @section Scripts {
-    <script>
-        $(document).ready(function() {
-            // Handle category link clicks
-            $('.category-link').on('click', function(e) {
-                e.preventDefault();
-                
-                // Remove active class from all links
-                $('.category-link').removeClass('active');
-                
-                // Add active class to clicked link
-                $(this).addClass('active');
-                
-                // Get the URL from data attribute
-                var url = $(this).data('url');
-                
-                // Load the partial view
-                $('#contentArea').load(url, function(response, status, xhr) {
-                    if (status == "error") {
-                        $('#contentArea').html('<div class="alert alert-danger">Er is een fout opgetreden bij het laden van de content.</div>');
-                    }
+<script>
+    $(document).ready(function() {
+        // Handle category link clicks
+        $('.category-link').on('click', function(e) {
+            e.preventDefault();
+
+            // Remove active class from all links
+            $('.category-link').removeClass('active');
+
+            // Add active class to clicked link
+            $(this).addClass('active');
+
+            // Get the URL from data attribute
+            var url = $(this).data('url');
+
+            // Load the partial view
+            $('#contentArea').load(url, function(response, status, xhr) {
+                if (status == "error") {
+                    $('#contentArea').html('<div class="alert alert-danger">Er is een fout opgetreden bij het laden van de content.</div>');
+                }
                 });
             });
         });

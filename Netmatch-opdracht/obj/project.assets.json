@@ -1711,11 +1711,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "/Users/alexander/RiderProjects/netmatch-groep-3-mvc/Netmatch-opdracht/Netmatch-opdracht.csproj",
+      "projectUniqueName": "/Users/alexander/RiderProjects/NetmatchTest/Netmatch-opdracht/Netmatch-opdracht.csproj",
       "projectName": "Netmatch-opdracht",
-      "projectPath": "/Users/alexander/RiderProjects/netmatch-groep-3-mvc/Netmatch-opdracht/Netmatch-opdracht.csproj",
+      "projectPath": "/Users/alexander/RiderProjects/NetmatchTest/Netmatch-opdracht/Netmatch-opdracht.csproj",
       "packagesPath": "/Users/alexander/.nuget/packages/",
-      "outputPath": "/Users/alexander/RiderProjects/netmatch-groep-3-mvc/Netmatch-opdracht/obj/",
+      "outputPath": "/Users/alexander/RiderProjects/NetmatchTest/Netmatch-opdracht/obj/",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "/Users/alexander/.nuget/NuGet/NuGet.Config"
@@ -1730,11 +1730,11 @@
         "net9.0": {
           "targetAlias": "net9.0",
           "projectReferences": {
-            "/Users/alexander/RiderProjects/netmatch-groep-3-mvc/NetMatch.DAL/NetMatch.DAL.csproj": {
-              "projectPath": "/Users/alexander/RiderProjects/netmatch-groep-3-mvc/NetMatch.DAL/NetMatch.DAL.csproj"
+            "/Users/alexander/RiderProjects/NetmatchTest/NetMatch.DAL/NetMatch.DAL.csproj": {
+              "projectPath": "/Users/alexander/RiderProjects/NetmatchTest/NetMatch.DAL/NetMatch.DAL.csproj"
             },
-            "/Users/alexander/RiderProjects/netmatch-groep-3-mvc/NetMatch.Logic/NetMatch.Logic.csproj": {
-              "projectPath": "/Users/alexander/RiderProjects/netmatch-groep-3-mvc/NetMatch.Logic/NetMatch.Logic.csproj"
+            "/Users/alexander/RiderProjects/NetmatchTest/NetMatch.Logic/NetMatch.Logic.csproj": {
+              "projectPath": "/Users/alexander/RiderProjects/NetmatchTest/NetMatch.Logic/NetMatch.Logic.csproj"
             }
           }
         }

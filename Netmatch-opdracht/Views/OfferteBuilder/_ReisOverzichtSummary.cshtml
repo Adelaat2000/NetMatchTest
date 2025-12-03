@@ -1,0 +1,53 @@
+@model Netmatch_opdracht.Models.ReisOverzichtViewModel
+
+<div class="p-3">
+    <h6 class="fw-bold mb-3">Reisoverzicht</h6>
+
+    <div class="card mb-3">
+        <div class="card-body p-2 d-flex gap-2 align-items-center">
+            <img src="@(string.IsNullOrWhiteSpace(Model.AccommodationImageUrl) ? "https://via.placeholder.com/80" : Model.AccommodationImageUrl)" class="rounded" style="width:80px;height:80px;object-fit:cover;" alt="Accommodatie" />
+            <div>
+                <div class="text-muted small">Accommodatie</div>
+                <div class="fw-bold">@Model.AccommodationName</div>
+                <div class="small">@Model.AccommodationGuests • @Model.AccommodationNights</div>
+                <div class="text-teal fw-bold">@Model.AccommodationPrice</div>
+            </div>
+        </div>
+    </div>
+
+    @if (Model.Transports != null && Model.Transports.Any())
+    {
+        <h6 class="fw-bold mb-2">Vervoer</h6>
+        @foreach (var transport in Model.Transports)
+        {
+            <div class="d-flex justify-content-between align-items-center mb-2">
+                <div>
+                    <div class="fw-semibold">@transport.Route</div>
+                    <div class="text-muted small">@transport.Date • @transport.Time</div>
+                </div>
+                <div class="fw-bold text-teal">@transport.Price</div>
+            </div>
+        }
+    }
+
+    <div class="border-top pt-3 mt-3">
+        <div class="d-flex justify-content-between mb-1">
+            <span class="text-muted">Subtotaal</span>
+            <span class="fw-semibold">@Model.Subtotal</span>
+        </div>
+        <div class="d-flex justify-content-between mb-1">
+            <span class="text-muted">Belastingen</span>
+            <span class="fw-semibold">@Model.Taxes</span>
+        </div>
+        <div class="d-flex justify-content-between">
+            <span class="fw-bold">Totaal</span>
+            <span class="fw-bold text-teal">@Model.Total</span>
+        </div>
+    </div>
+</div>
+
+<style>
+    .text-teal {
+        color: #14b8a6 !important;
+    }
+</style>

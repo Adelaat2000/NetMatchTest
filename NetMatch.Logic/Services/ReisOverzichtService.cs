@@ -1,6 +1,8 @@
 using NetMatch.Logic.Models;
 using NetMatch.DAL.Interfaces;
 using System.Linq;
+using NetMatch.DAL.DTO;
+using System.Collections.Generic;
 
 namespace NetMatch.Logic.Services
 {
@@ -23,6 +25,12 @@ namespace NetMatch.Logic.Services
             _repository = repository;
         }
 
+        public ReisOverzichtModel.Trip UpdateAccommodationForTrip(int tripId, int accommodationId, int nights, int guests)
+        {
+            _repository.UpdateAccommodationForTrip(tripId, accommodationId, nights, guests);
+            return GetTripById(tripId);
+        }
+
         /// <summary>
         /// Retrieves a trip by ID, including all business logic and DTO-to-Model mapping.
         /// </summary>
@@ -30,12 +38,16 @@ namespace NetMatch.Logic.Services
         /// <returns>A fully populated Trip model with calculated totals</returns>
         public ReisOverzichtModel.Trip GetTripById(int tripId)
         {
-            // Fetch raw data from DAL via the interface
-            var accommodationDto = _repository.GetAccommodationByTripId(tripId);
-            var transportDtos = _repository.GetTransportsByTripId(tripId);
+            ReisOverzichtDTO.AccommodationDto accommodationDto = _repository.GetAccommodationByTripId(tripId);
+            List<ReisOverzichtDTO.TransportDto> transportDtos = _repository.GetTransportsByTripId(tripId);
+
+            if (accommodationDto == null)
+            {
+                return null;
+            }
 
             // Map Accommodation DTO → Domain Model
-            var accommodation = new ReisOverzichtModel.Accommodation
+            ReisOverzichtModel.Accommodation accommodation = new ReisOverzichtModel.Accommodation
             {
                 Name = accommodationDto.Name,
                 ImageUrl = accommodationDto.ImageUrl,
@@ -45,7 +57,7 @@ namespace NetMatch.Logic.Services
             };
 
             // Map Transport DTOs → Domain Models
-            var transports = transportDtos.Select(t => new ReisOverzichtModel.Transport
+            List<ReisOverzichtModel.Transport> transports = transportDtos.Select(t => new ReisOverzichtModel.Transport
             {
                 Route = t.Route,
                 Date = t.Date,

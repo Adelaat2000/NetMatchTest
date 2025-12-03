@@ -1,6 +1,8 @@
 using Microsoft.AspNetCore.Mvc;
 using Netmatch_opdracht.Models;
-using NetMatch.Logic.Services; 
+using NetMatch.Logic.Services;
+using Netmatch_opdracht.Models.ViewModels;
+using System.Linq;
 
 namespace Netmatch_opdracht.Controllers
 {
@@ -13,11 +15,40 @@ namespace Netmatch_opdracht.Controllers
             _service = service;
         }
 
+        [HttpPost]
+        public IActionResult SelectAccommodation([FromBody] AccommodationSelectionViewModel selection)
+        {
+            if (selection == null)
+            {
+                return BadRequest("Geen selectie ontvangen.");
+            }
+
+            Logic.Models.ReisOverzichtModel.Trip trip = _service.UpdateAccommodationForTrip(
+                selection.TripId,
+                selection.AccommodationId,
+                selection.Nights,
+                selection.Guests);
+
+            ReisOverzichtViewModel viewModel = MapTripToViewModel(trip);
+            return PartialView("_ReisOverzichtSummary", viewModel);
+        }
+
         public IActionResult ToonReisOverzicht(int tripId)
         {
             var trip = _service.GetTripById(tripId);
+            ReisOverzichtViewModel vm = MapTripToViewModel(trip);
 
-            var vm = new ReisOverzichtViewModel
+            return View(vm);
+        }
+
+        private ReisOverzichtViewModel MapTripToViewModel(Logic.Models.ReisOverzichtModel.Trip trip)
+        {
+            if (trip == null)
+            {
+                return new ReisOverzichtViewModel();
+            }
+
+            return new ReisOverzichtViewModel
             {
                 AccommodationName = trip.Accommodation.Name,
                 AccommodationImageUrl = trip.Accommodation.ImageUrl,
@@ -27,7 +58,6 @@ namespace Netmatch_opdracht.Controllers
                 Subtotal = $"{trip.Subtotal:C}",
                 Taxes = $"{trip.Taxes:C}",
                 Total = $"{trip.Total:C}",
-
                 Transports = trip.Transports.Select(t => new TransportViewModel
                 {
                     Route = t.Route,
@@ -36,8 +66,6 @@ namespace Netmatch_opdracht.Controllers
                     Price = $"{t.Price:C}"
                 }).ToList()
             };
-
-            return View(vm);
         }
     }
 }

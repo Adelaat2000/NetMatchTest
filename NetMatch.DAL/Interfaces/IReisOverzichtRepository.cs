@@ -7,5 +7,8 @@ namespace NetMatch.DAL.Interfaces
     {
         ReisOverzichtDTO.AccommodationDto GetAccommodationByTripId(int tripId);
         List<ReisOverzichtDTO.TransportDto> GetTransportsByTripId(int tripId);
+        void UpdateAccommodationForTrip(int tripId, int accommodationId, int nights, int guests);
+
+        
     }
 }

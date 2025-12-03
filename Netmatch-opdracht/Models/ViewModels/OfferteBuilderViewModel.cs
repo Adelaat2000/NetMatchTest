@@ -1,3 +1,6 @@
+using System.Collections.Generic;
+using Netmatch_opdracht.Models;
+
 namespace Netmatch_opdracht.Models.ViewModels
 {
     public class OfferteBuilderViewModel
@@ -7,6 +10,8 @@ namespace Netmatch_opdracht.Models.ViewModels
         public string SelectedCategory { get; set; } = "accommodations"; // accommodations, activities, transportation
         public decimal TotalPrice { get; set; } = 0;
         public List<SelectedComponent> SelectedComponents { get; set; } = new List<SelectedComponent>();
+        public int TripId { get; set; } = 1;
+        public ReisOverzichtViewModel ReisOverzicht { get; set; }
     }
 
     public class SelectedComponent
