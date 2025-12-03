@@ -1,7 +1,6 @@
 using NetMatch.DAL.DAL;
 
-namespace NetMatch.Dal.Interfaces
-
+namespace NetMatch.DAL.Interfaces
 {
     public interface IAccommodationRepository
     {

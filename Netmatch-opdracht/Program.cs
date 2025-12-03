@@ -1,4 +1,3 @@
-using NetMatch.Dal.Interfaces;
 using NetMatch.Logic.Services;
 using NetMatch.DAL.Interfaces;
 using NetMatch.DAL.Repositories;

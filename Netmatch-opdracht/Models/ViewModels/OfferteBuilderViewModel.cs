@@ -7,7 +7,7 @@ namespace Netmatch_opdracht.Models.ViewModels
     {
         public string ItineraryName { get; set; } = "Parisian Dreams Itinerary";
         public string Destination { get; set; } = "Paris, Frankrijk";
-        public string SelectedCategory { get; set; } = "accommodations"; // accommodations, activities, transportation
+        public string SelectedCategory { get; set; } = "accommodations";
         public decimal TotalPrice { get; set; } = 0;
         public List<SelectedComponent> SelectedComponents { get; set; } = new List<SelectedComponent>();
         public int TripId { get; set; } = 1;
@@ -16,7 +16,7 @@ namespace Netmatch_opdracht.Models.ViewModels
 
     public class SelectedComponent
     {
-        public string Type { get; set; } = ""; // ACCOMMODATIE, VERVOER, ACTIVITEIT
+        public string Type { get; set; } = "";
         public string Name { get; set; } = "";
         public string Description { get; set; } = "";
         public decimal Price { get; set; }

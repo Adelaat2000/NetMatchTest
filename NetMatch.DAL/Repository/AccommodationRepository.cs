@@ -4,7 +4,6 @@ using NetMatch.DAL.DAL;
 using NetMatch.DAL.Interfaces;
 using System;
 using System.Collections.Generic;
-using NetMatch.Dal.Interfaces;
 
 
 namespace NetMatch.DAL.Repository
