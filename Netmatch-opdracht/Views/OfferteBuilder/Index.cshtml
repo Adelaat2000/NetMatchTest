@@ -126,16 +126,18 @@
         });
 
         $(document).on("click", ".select-accommodation", function () {
+            const payload = {
+                tripId: $(this).data("trip"),
+                accommodationId: $(this).data("id"),
+                nights: $(this).data("nights"),
+                guests: $(this).data("guests")
+            };
+
             $.ajax({
                 url: "/ReisOverzicht/SelectAccommodation",
                 type: "POST",
                 contentType: "application/json",
-                data: JSON.stringify({
-                    TripId: $(this).data("trip"),
-                    AccommodationId: $(this).data("id"),
-                    Nights: $(this).data("nights"),
-                    Guests: $(this).data("guests")
-                }),
+                data: JSON.stringify(payload),
                 success: function (html) {
                     $("#rightSidebar").html(html);
                 }
